@@ -14,6 +14,11 @@ if [ "$current_branch" = "main" ]; then
   exit 0
 fi
 
+if [ "$current_branch" = "basic-template" ]; then
+  echo "You're on 'basic-template' branch. Skipping push to the other repo."
+  exit 0
+fi
+
 echo "On branch '$current_branch'. Proceeding with push to other repo."
 
 # Settings

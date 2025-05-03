@@ -6,6 +6,7 @@ const InputStyle = withMyTheme((theme: Theme, additionalCss: any) => css`
     & .MuiInputLabel-root {
         font-family: ${theme.typography.body1.fontFamily};
         color: ${theme.palette.text.primary};
+        font-size: 1.5rem;
     }
     ${additionalCss ? additionalCss(theme) : ''};
 `)

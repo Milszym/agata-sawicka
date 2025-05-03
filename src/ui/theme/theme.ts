@@ -4,21 +4,21 @@ import { createTheme, Theme } from "@mui/material"
 export const lightTheme = createTheme({
     palette: {
         primary: {
-            main: '#C45526',
-            light: '#ED8153',
-            dark: '#C45526',
+            main: '#0047AB',
+            light: '#009BAB',
+            dark: '#0047AB',
             contrastText: '#fff',
         },
         secondary: {
-            main: '#94AE98',
-            light: '#BDCCBF',
-            dark: '#94AE98',
+            main: '#8DC3C9',
+            light: '#B0E0E6',
+            dark: '#8DC3C9',
             contrastText: '#fff',
         },
         text: {
             primary: '#000',
             secondary: '#fff',
-        }
+        },
     },
     typography: {
         fontFamily: "'Cormorant', serif",
