@@ -1,5 +1,22 @@
+/** @jsxImportSource @emotion/react */
+import { Offers } from "./landing/offers/Offers"
+import { Title } from "./landing/title/Title"
+import { AboutMe } from "./landing/aboutMe/AboutMe"
+import { LanguageSwitcher } from "./components/LanguageSwitcher"
+import { Reviews } from "./landing/reviews/Reviews"
+import { Portfolio } from "./landing/portfolio/Portfolio"
+import { Contact } from "./landing/contact/Contact"
+import { Footer } from "./landing/footer/Footer"
+
 export const AppContent = () => {
     return <>
-        Content
+        <LanguageSwitcher />
+        <Title />
+        <AboutMe />
+        <Offers />
+        <Reviews />
+        <Portfolio />
+        <Contact />
+        <Footer />
     </>
 }

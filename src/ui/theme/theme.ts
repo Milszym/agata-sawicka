@@ -4,14 +4,14 @@ import { createTheme, Theme } from "@mui/material"
 export const lightTheme = createTheme({
     palette: {
         primary: {
-            main: '#0047AB',
-            light: '#009BAB',
+            main: '#D6B98A',
+            light: '#C4AC8E',
             dark: '#0047AB',
             contrastText: '#fff',
         },
         secondary: {
-            main: '#8DC3C9',
-            light: '#B0E0E6',
+            main: '#C8BBA9',
+            light: '#D6B98A',
             dark: '#8DC3C9',
             contrastText: '#fff',
         },
@@ -36,3 +36,5 @@ export const withMyTheme = <T extends (arg: any, additionalArg?: any) => any>(
 ) => {
     return (theme: any, additionalArg?: any) => styleCreator(theme as Theme, additionalArg) as SerializedStyles;
 };
+
+export const SMALL_ROUNDED_CORNER = '32px'

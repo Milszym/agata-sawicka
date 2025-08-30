@@ -3,6 +3,7 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector"; // Detect user language
 import translation_en from "./locales/en/translation.json";
 import translation_pl from "./locales/pl/translation.json";
+import { DEFAULT_LANGUAGE } from "./constants/languages";
 
 const resources = {
   en: {
@@ -18,7 +19,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: "pl", // Default language
+    fallbackLng: DEFAULT_LANGUAGE, // Default language
     defaultNS: 'translation',
     interpolation: {
       escapeValue: false, // React already escapes by default
