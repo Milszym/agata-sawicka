@@ -21,12 +21,12 @@ export const lightTheme = createTheme({
         },
     },
     typography: {
-        fontFamily: "'Cormorant', serif",
+        fontFamily: "'Playful Display'",
         h1: {
-            fontFamily: "'Great Vibes', serif",
+            fontFamily: "'Playful Display'",
         },
         body1: {
-            fontFamily: "'Cormorant', serif",
+            fontFamily: "'Ysabeau'",
         },
     }
 })

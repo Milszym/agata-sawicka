@@ -22,7 +22,19 @@ const App = () => {
   // Set basename based on environment
   const basename = process.env.NODE_ENV === 'production' ? '/wordpress-test' : '';
 
-  return (
+  return <>
+
+    {/* <Helmet>
+      <title>Agata Sawicka - Makijażystka Gdynia i Trójmiasto</title>
+      <meta name="description" content="Profesjonalna makijażystka w Gdyni. Makijaż ślubny, okolicznościowy, oraz lekcje makijażu. Dojazd do klientki w Gdyni, Sopocie, Gdańsku i całej Polsce." />
+      <meta name="keywords" content="makijażystka Gdynia, wizażystka Trójmiasto, makijaż ślubny Gdynia, makijaż wieczorowy, kurs makijażu, lekcje makijażu, makijaż na wesele, makijaż z dojazdem, Gdynia, Sopot, Gdańsk" />
+      <meta property="og:title" content="Agata Sawicka - makijażystka w Gdyni" />
+      <meta property="og:description" content="Profesjonalne makijaże i kursy w Trójmieście. Doświadczona makijażystka z dojazdem do klienta." />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://www.agatasawickamakeup.pl" />
+      <meta property="og:image" content="https://placehold.co/1200x630/E2D7D0/2E2A27?text=Agata+Sawicka+Makeup+Studio" />
+    </Helmet> */}
+
     <ThemeProvider theme={lightTheme}>
       <Router basename={basename}>
         <Routes>
@@ -31,7 +43,7 @@ const App = () => {
         </Routes>
       </Router>
     </ThemeProvider>
-  );
+  </>;
 };
 
 export default App;

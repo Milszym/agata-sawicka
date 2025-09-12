@@ -2,6 +2,7 @@
 import { css, SerializedStyles } from "@emotion/react";
 import { Theme, useTheme } from "@mui/material";
 import { withMyTheme } from "../../theme/theme";
+import { JSX } from "react";
 
 const TextStyle = withMyTheme((theme: Theme, additionalCss: any) => css`
     color: ${theme.palette.text.primary};
@@ -12,7 +13,7 @@ const TextStyle = withMyTheme((theme: Theme, additionalCss: any) => css`
 `)
 
 interface Props {
-    text: string,
+    text: string | JSX.Element,
     additionalCss?: any
 }
 
