@@ -3,7 +3,7 @@ import { css, useTheme } from "@emotion/react";
 import { Button, Theme, ButtonProps as MuiButtonProps } from "@mui/material";
 import { withMyTheme } from "../../theme/theme";
 
-const ButtonPrimaryStyle = withMyTheme((theme: Theme, additionalCss?: any) => css`
+const ButtonPrimaryStyle = withMyTheme((theme: Theme, additionalCss?: (theme: Theme) => any) => css`
     font-size: 16px;
     padding: 10px 20px;
     font-weight: 500;
@@ -15,6 +15,10 @@ const ButtonPrimaryStyle = withMyTheme((theme: Theme, additionalCss?: any) => cs
             background-color: rgba(196, 85, 38, 0.04);
             border-color: ${theme.palette.primary.light};
         }
+        &.Mui-disabled {
+            border-color: ${theme.palette.action.disabled};
+            color: ${theme.palette.action.disabled};
+        }
     }
     
     &.MuiButton-contained {
@@ -23,12 +27,16 @@ const ButtonPrimaryStyle = withMyTheme((theme: Theme, additionalCss?: any) => cs
         &:hover {
             background-color: ${theme.palette.primary.main};
         }
+        &.Mui-disabled {
+            background-color: ${theme.palette.action.disabledBackground};
+            color: ${theme.palette.action.disabled};
+        }
     }
     
     ${additionalCss ? additionalCss(theme) : ''}
 `)
 
-const ButtonSecondaryStyle = withMyTheme((theme: Theme, additionalCss?: any) => css`
+const ButtonSecondaryStyle = withMyTheme((theme: Theme, additionalCss?: (theme: Theme) => any) => css`
     font-size: 16px;
     padding: 10px 20px;
     font-weight: 500;
@@ -39,6 +47,10 @@ const ButtonSecondaryStyle = withMyTheme((theme: Theme, additionalCss?: any) => 
         &:hover {
             border-color: ${theme.palette.secondary.light};
         }
+        &.Mui-disabled {
+            border-color: ${theme.palette.action.disabled};
+            color: ${theme.palette.action.disabled};
+        }
     }
     
     &.MuiButton-contained {
@@ -46,6 +58,10 @@ const ButtonSecondaryStyle = withMyTheme((theme: Theme, additionalCss?: any) => 
         color: ${theme.palette.secondary.contrastText};
         &:hover {
             background-color: ${theme.palette.secondary.light};
+        }
+        &.Mui-disabled {
+            background-color: ${theme.palette.action.disabledBackground};
+            color: ${theme.palette.action.disabled};
         }
     }
     
@@ -58,7 +74,7 @@ interface MyButtonProps extends Omit<MuiButtonProps, 'css' | 'startIcon'> {
     variant?: "outlined" | "text" | "contained";
     text: string;
     onClick?: () => void;
-    additionalCss?: any;
+    additionalCss?: (theme: Theme) => any;
     startIcon?: React.ReactNode;
     type?: "button" | "submit" | "reset"; // Explicitly define type for clarity
 }

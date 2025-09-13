@@ -46,7 +46,7 @@ const getLogoStyle = (scrollProgress: number) => withMyTheme(() => {
         `)}
 
         &:nth-of-type(2) {
-            opacity: ${scrollProgress === 1 ? 1 : 0};
+            opacity: ${scrollProgress > 0.8 ? 1 : 0};
         }
     `;
 });
@@ -132,7 +132,7 @@ export const Title = () => {
             const progress = Math.min(scrollPosition / viewportHeight, 1);
             setScrollProgress(progress);
         };
-
+        handleScroll()
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);

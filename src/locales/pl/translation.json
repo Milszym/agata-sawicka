@@ -40,6 +40,10 @@
             "button": "Zobacz więcej"
         }
     },
+    "voucher": {
+        "title": "Voucher",
+        "description": "Szukasz idealnego prezentu?\nW ramach oferty posiadam również vouchery – podaruj bliskiej osobie chwilę piękna!"
+    },
     "footer": {
         "followUs": "Social Media",
         "contact": "Kontakt",

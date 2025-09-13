@@ -41,7 +41,7 @@ const TileTitleStyle = withMyTheme((theme) => css`
     font-size: 1.5vw;
     margin: 0 0 2vh 0;
     ${mobileCss(`
-        font-size: 7vw;
+        font-size: 4.5vw;
         margin: 0 0 3vh 0;
     `)}
 `);
@@ -59,7 +59,6 @@ export const ReviewTile = ({
     logoSrc,
     logoAlt,
     title,
-    description,
     buttonText,
     url
 }: ReviewTileProps) => {

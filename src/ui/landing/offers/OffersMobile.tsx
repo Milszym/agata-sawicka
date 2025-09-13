@@ -8,7 +8,7 @@ import { OfferDto } from './Offers';
 
 const MobileContainerStyle = withMyTheme(() => css`
     position: relative;
-    width: 100%;
+    width: 100vw;
 `);
 
 const MobileScrollerStyle = withMyTheme(() => css`
@@ -40,7 +40,7 @@ const OfferTileStyle = withMyTheme((theme) => css`
 
 const OfferImageStyle = withMyTheme(() => css`
     width: 100%;
-    height: 50vh;
+    height: 37vh;
     object-fit: cover;
 `);
 

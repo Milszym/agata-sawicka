@@ -26,7 +26,7 @@ const ReviewsTitleStyle = withMyTheme((theme) => css`
     margin-top: 0;
     
     ${mobileCss(`
-        font-size: 8vw;
+        font-size: 7vw;
     `)}
 `);
 
@@ -41,7 +41,7 @@ const ReviewsDescriptionStyle = withMyTheme((theme) => css`
     margin-right: auto;
     line-height: 1.6;
     ${mobileCss(`
-        font-size: 5vw;
+        font-size: 4vw;
         max-width: 90vw;
     `)}
 `);

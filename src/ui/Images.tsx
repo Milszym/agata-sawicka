@@ -15,5 +15,7 @@ export enum Image {
     PORTFOLIO_3 = '/images/portfolio_3.png',
     VOUCHER_1 = '/images/voucher_1.png',
     VOUCHER_2 = '/images/voucher_2.png',
-    CONTACT_FORM_PHOTO = '/images/contact_form_photo.png'
+    CONTACT_FORM_PHOTO = '/images/contact_form_photo.png',
+    CONTACT_FORM_BACKGROUND = '/images/contact_background.jpg',
+    GOOGLE_MAPS_LINK = '/images/google_map.png'
 }

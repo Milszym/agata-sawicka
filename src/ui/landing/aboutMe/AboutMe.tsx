@@ -6,8 +6,22 @@ import { withMyTheme, SMALL_ROUNDED_CORNER } from '../../theme/theme';
 import { mobileCss } from '../../theme/isMobile';
 import { MyButton } from '../../components/button/MyButton';
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
 
 export const ABOUT_ME_ID = 'about-me';
+
+const fadeInAnimation = css`
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10vh);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+`;
 
 const AboutMeContainerStyle = withMyTheme((theme) => css`
     padding: 15vh 5vw;
@@ -25,12 +39,19 @@ const AboutMeContainerStyle = withMyTheme((theme) => css`
     `)}
 `);
 
-const ContentContainerStyle = css`
+const ContentContainerStyle = (isVisible: boolean) => css`
     flex: 1;
     max-width: 45vw;
     display: flex;
     flex-direction: column;
     gap: 2vh;
+    opacity: 0;
+    transform: translateY(10vh);
+    
+    ${isVisible && css`
+        animation: fadeIn 1s ease-out forwards;
+        ${fadeInAnimation}
+    `}
     
     ${mobileCss(`
         max-width: 100%;
@@ -59,7 +80,7 @@ const AboutMeTitleStyle = withMyTheme((theme) => css`
 
     ${mobileCss(`
         margin-top: 5vh;
-        font-size: 2rem;
+        font-size: 7vw;
     `)}
 `);
 
@@ -76,13 +97,21 @@ const AboutMeDescriptionStyle = withMyTheme((theme) => css`
     `)}
 `);
 
-const ImageContainerStyle = css`
+const ImageContainerStyle = (isVisible: boolean) => css`
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     max-width: 500px;
     position: relative;
+    opacity: 0;
+    transform: translateY(10vh);
+    animation-delay: 0.2s;
+    
+    ${isVisible && css`
+        animation: fadeIn 1s ease-out forwards;
+        ${fadeInAnimation}
+    `}
     
     ${mobileCss(`
         max-width: 300px;
@@ -120,12 +149,38 @@ const AboutMeImageStyle = css`
 
 export const AboutMe = () => {
     const { t } = useTranslation();
-
     const navigate = useNavigate();
+    const [isVisible, setIsVisible] = useState(false);
+    const sectionRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                    observer.unobserve(entry.target);
+                }
+            },
+            {
+                threshold: 0.2, // Trigger when 20% of the element is visible
+                rootMargin: '50px' // Start animation slightly before the element comes into view
+            }
+        );
+
+        if (sectionRef.current) {
+            observer.observe(sectionRef.current);
+        }
+
+        return () => {
+            if (sectionRef.current) {
+                observer.unobserve(sectionRef.current);
+            }
+        };
+    }, []);
 
     return (
-        <div css={AboutMeContainerStyle} id={ABOUT_ME_ID}>
-            <div css={ContentContainerStyle}>
+        <div css={AboutMeContainerStyle} ref={sectionRef} id={ABOUT_ME_ID}>
+            <div css={ContentContainerStyle(isVisible)}>
                 <h2 css={AboutMeTitleStyle}>
                     {t('aboutMe.title')}
                 </h2>
@@ -140,7 +195,7 @@ export const AboutMe = () => {
                 />
             </div>
             
-            <div css={ImageContainerStyle}>
+            <div css={ImageContainerStyle(isVisible)}>
                 <div css={ImageBackgroundStyle} />
                 <img 
                     src={Image.ABOUT_ME} 

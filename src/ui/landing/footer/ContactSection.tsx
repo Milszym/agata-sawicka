@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import { useTranslation } from 'react-i18next';
 import { withMyTheme } from '../../theme/theme';
 import { mobileCss } from '../../theme/isMobile';
+import { GOOGLE_MAPS_LINK } from './SocialMediaIcons';
 
 const ContactSectionStyle = withMyTheme(() => css`
     display: flex;
@@ -71,9 +72,9 @@ export const ContactSection = () => {
             <a css={ContactLinkStyle} onClick={handleEmailClick}>
                 {t('footer.email')}
             </a>
-            <div css={ContactItemStyle}>
+            <a css={ContactItemStyle} href={GOOGLE_MAPS_LINK}>
                 {t('footer.address')}
-            </div>
+            </a>
         </div>
     );
 };

@@ -7,6 +7,7 @@ import { mobileCss } from '../../theme/isMobile';
 import { useNavigate } from 'react-router-dom';
 import { MyButton } from '../../components/button/MyButton';
 import { ArrowBack } from '@mui/icons-material';
+import { useEffect } from 'react';
 
 export const ABOUT_ME_PAGE_ID = 'about-me-page';
 
@@ -115,6 +116,10 @@ const ImageBackgroundStyle = withMyTheme((theme) => css`
 export const AboutMePage = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <div css={AboutMeContainerStyle} id={ABOUT_ME_PAGE_ID}>

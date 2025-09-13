@@ -40,6 +40,10 @@
             "button": "Zobacz więcej"
         }
     },
+    "voucher": {
+        "title": "Voucher",
+        "description": "Looking for the perfect gift?\n\nAs part of my offer, I also have vouchers – give your loved one a moment of beauty!"
+    },
     "footer": {
         "followUs": "Social Media",
         "contact": "Kontakt",

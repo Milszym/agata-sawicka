@@ -7,57 +7,75 @@ import { ContactForm } from './ContactForm';
 
 export const CONTACT_ID = 'contact';
 
-const ContactContainerStyle = withMyTheme((theme) => css`
-    background-color: ${theme.palette.background.default};
+const ContactContainerStyle = withMyTheme(() => css`
     display: flex;
-    align-items: center;
-    padding: 10vh 10vw;
-    justify-content: center;
-    gap: 5vw;
+    align-items: stretch;
+    background-image: url(${Image.CONTACT_FORM_BACKGROUND});
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     
     ${mobileCss(`
-        flex-direction: column;
-        padding: 7vh 7vw;
-        gap: 30px;
         background-image: url(${Image.CONTACT_FORM_PHOTO});
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
+        flex-direction: column;
+        align-items: center;
+        padding: 7vh 7vw;
     `)}
 `);
 
-const ImageContainerStyle = css`
+const MapContainerStyle = withMyTheme(() => css`
     flex: 1;
     display: flex;
-    justify-content: center;
     align-items: center;
-`;
-
-const ContactImageStyle = css`
-    width: auto;
-    height: 80vh;
-    border-radius: 12px;
-    object-fit: cover;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    padding: 40px;
     
     ${mobileCss(`
-        border-radius: 0;
-        box-shadow: none;
+        padding: 0;
+        width: 100%;
     `)}
-`;
+`);
+
+const MapImageStyle = withMyTheme((theme) => css`
+    width: 25vw;
+    height: 25vw;
+    object-fit: cover;
+    border-radius: 500px;
+    border: 2px solid ${theme.palette.primary.main};
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    max-width: 33vw;
+    max-height: 50vh;
+    &:hover {
+        transform: scale(1.02);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    ${mobileCss(`
+        border-radius: 12px;
+        max-width: none;
+        width: 80vw;
+        height: 15vh;
+    `)}
+`);
 
 export const Contact = () => {
+    const handleMapClick = () => {
+        window.open('https://maps.google.com/maps?q=Rdestowa+138a,+81-577+Gdynia,+Polska', '_blank');
+    };
+
     return (
         <div css={ContactContainerStyle} id={CONTACT_ID}>
             <ContactForm />
-            
-            {!isMobile() && <div css={ImageContainerStyle}>
-                <img 
-                    src={Image.CONTACT_FORM_PHOTO} 
-                    alt="Contact" 
-                    css={ContactImageStyle}
+            <div css={MapContainerStyle}>
+                <img
+                    src={Image.GOOGLE_MAPS_LINK}
+                    alt="Location on Google Maps"
+                    css={MapImageStyle}
+                    onClick={handleMapClick}
                 />
-            </div>}
+            </div>
         </div>
     );
 };

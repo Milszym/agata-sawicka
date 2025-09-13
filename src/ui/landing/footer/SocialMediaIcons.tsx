@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useTranslation } from 'react-i18next';
 import { withMyTheme } from '../../theme/theme';
 import { mobileCss } from '../../theme/isMobile';
 import { Instagram, Facebook, Google } from '@mui/icons-material';
 import { Image } from '../../Images';
 
+export const GOOGLE_MAPS_LINK = 'https://maps.app.goo.gl/pnrCpbJJaBfekdLr8'
 
 const SocialMediaIconsStyle = withMyTheme(() => css`
     display: flex;
@@ -68,7 +68,7 @@ export const SocialMediaIcons = ({ negative = false }: { negative?: boolean }) =
         </a>
         <a
             css={SocialIconStyle(negative)}
-            onClick={() => handleSocialClick('https://maps.app.goo.gl/pnrCpbJJaBfekdLr8')}
+            onClick={() => handleSocialClick(GOOGLE_MAPS_LINK)}
             title="Google"
         >
             <Google />
