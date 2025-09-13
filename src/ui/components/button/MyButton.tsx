@@ -18,10 +18,10 @@ const ButtonPrimaryStyle = withMyTheme((theme: Theme, additionalCss?: any) => cs
     }
     
     &.MuiButton-contained {
-        background-color: ${theme.palette.primary.main};
+        background-color: ${theme.palette.primary.dark};
         color: ${theme.palette.primary.contrastText};
         &:hover {
-            background-color: ${theme.palette.primary.light};
+            background-color: ${theme.palette.primary.main};
         }
     }
     

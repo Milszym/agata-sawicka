@@ -21,42 +21,50 @@ const BackgroundStyle = withMyTheme(() => css`
     z-index: -1;
 `);
 
-const LogoStyle = withMyTheme(() => css`
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 30vw;
-    height: auto;
-    z-index: 10;
-    transition: all 0.3s ease-out;
+const getLogoStyle = (scrollProgress: number) => withMyTheme(() => {
+    // Initial and final sizes for desktop and mobile
+    const desktopMaxSize = 45;
+    const desktopMinSize = 15;
+    const mobileMaxSize = 50;
+    const mobileMinSize = 30;
 
-    ${mobileCss(`
-        width: 50vw;
-        top: 15px;
-        left: 15px;
-    `)}
-`);
+    // Calculate current size based on scroll progress
+    const desktopSize = desktopMaxSize - (scrollProgress * (desktopMaxSize - desktopMinSize));
+    const mobileSize = mobileMaxSize - (scrollProgress * (mobileMaxSize - mobileMinSize));
 
-const LogoScrolledStyle = withMyTheme(() => css`
-    width: 15vw;
+    return css`
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        width: ${Math.max(desktopMinSize, desktopSize)}vw;
+        height: auto;
+        z-index: 10;
+        transition: opacity 0.3s ease-out;
+        opacity: ${scrollProgress === 1 ? 0 : 1};
 
-    ${mobileCss(`
-        width: 30vw;
-    `)}
-`);
+        ${mobileCss(`
+            width: ${Math.max(mobileMinSize, mobileSize)}vw;
+            top: 15px;
+            left: 15px;
+        `)}
+
+        &:nth-of-type(2) {
+            opacity: ${scrollProgress === 1 ? 1 : 0};
+        }
+    `;
+});
 
 const TitleContentStyle = withMyTheme((theme) => css`
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
+    align-items: center;
+    text-align: center;
     gap: 20px;
-    max-width: 600px;
     color: ${theme.palette.common.white};
     margin-top: 15vh;
     margin-left: auto;
     margin-right: 5vw;
-    width: 45%;
+    width: 45vw;
 
     ${mobileCss(`
         margin: 25vh auto 0;
@@ -67,23 +75,11 @@ const TitleContentStyle = withMyTheme((theme) => css`
     `)}
 `);
 
-const MainTitleStyle = withMyTheme(() => css`
-    font-size: 64px;
+const TitleStyle = withMyTheme((theme) => css`
+    font-size: 3vw;
     font-weight: 300;
-    letter-spacing: 8px;
     margin: 0;
-
-    ${mobileCss(`
-        font-size: 36px;
-        letter-spacing: 4px;
-    `)}
-`);
-
-const SubtitleStyle = withMyTheme(() => css`
-    font-size: 24px;
-    font-weight: 300;
-    letter-spacing: 4px;
-    margin: 0;
+    font-family: ${theme.typography.h1.fontFamily};
     opacity: 0.9;
 
     ${mobileCss(`
@@ -92,10 +88,11 @@ const SubtitleStyle = withMyTheme(() => css`
     `)}
 `);
 
-const DescriptionStyle = withMyTheme(() => css`
-    font-size: 20px;
+const DescriptionStyle = withMyTheme((theme) => css`
+    font-size: 1.9vw;
     line-height: 1.6;
     margin: 30px 0;
+    font-family: ${theme.typography.body1.fontFamily};
     max-width: 600px;
 
     ${mobileCss(`
@@ -103,14 +100,36 @@ const DescriptionStyle = withMyTheme(() => css`
     `)}
 `);
 
+const NavigationStyle = (show: boolean) => withMyTheme(() => css`
+    opacity: ${show ? 1 : 0};
+    transition: opacity 0.3s ease-out;
+`);
+
+const ButtonStyle = withMyTheme((theme) => css`
+    &.MuiButton-contained {
+        background-color: ${theme.palette.primary.main};
+        &:hover {
+            background-color: ${theme.palette.primary.dark};
+        }
+    }
+    ${mobileCss(`
+        width: 50vw;
+    `)}
+`);
+
 export const Title = () => {
-    const { t } = useTranslation()
-    const [isScrolled, setIsScrolled] = React.useState(false);
+    const [scrollProgress, setScrollProgress] = React.useState(0);
 
     React.useEffect(() => {
         const handleScroll = () => {
+            // Get viewport height and scroll position
+            const viewportHeight = window.innerHeight;
             const scrollPosition = window.scrollY;
-            setIsScrolled(scrollPosition > 100);
+
+            // Calculate scroll progress (0 to 1)
+            // Full effect achieved when scrolling 1 viewport height
+            const progress = Math.min(scrollPosition / viewportHeight, 1);
+            setScrollProgress(progress);
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -125,27 +144,35 @@ export const Title = () => {
     };
 
     return <Fullscreen additionalCss={() => css`position: relative;`}>
-        <img 
-            src={Image.HEROBANNER} 
-            alt="HeroBanner Background" 
+        <img
+            src={Image.HEROBANNER}
+            alt="HeroBanner Background"
             css={BackgroundStyle}
         />
-        <img 
-            src={Image.LOGO_WHITE} 
-            alt="Agata Sawicka Logo" 
-            css={[LogoStyle, isScrolled && LogoScrolledStyle]}
+        <img
+            src={Image.LOGO_BLACK}
+            alt="Agata Sawicka Logo Black"
+            css={getLogoStyle(scrollProgress)}
         />
-        <Navigation />
+        <img
+            src={Image.LOGO_WHITE}
+            alt="Agata Sawicka Logo White"
+            css={getLogoStyle(scrollProgress)}
+        />
+        <div css={NavigationStyle(scrollProgress < 0.9)}>
+            <Navigation />
+        </div>
         <div css={TitleContentStyle}>
-            <h2 css={SubtitleStyle}>Makijaż, który podkreśli Twoje 
-            naturalne piękno!</h2>
+            <h1 css={TitleStyle}>Makijaż, który podkreśli Twoje
+                naturalne piękno!</h1>
             <p css={DescriptionStyle}>
-            Zapraszam do mojego studia makijażu w Gdyni, gdzie wyczaruję dla Ciebie look na każdą okazję – od codziennego po wyjątkowe wydarzenia.
+                Zapraszam do mojego studia makijażu w Gdyni, gdzie wyczaruję dla Ciebie look na każdą okazję – od codziennego po wyjątkowe wydarzenia.
             </p>
-            <MyButton 
+            <MyButton
                 text="NAPISZ DO MNIE"
                 onClick={() => scrollToSection('contact')}
                 variant="contained"
+                additionalCss={ButtonStyle}
             />
         </div>
     </Fullscreen>

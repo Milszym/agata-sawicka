@@ -4,59 +4,44 @@ import { useTranslation } from 'react-i18next';
 import { Image } from '../../Images';
 import { withMyTheme, SMALL_ROUNDED_CORNER } from '../../theme/theme';
 import { mobileCss } from '../../theme/isMobile';
-import { MyButton } from '../../components/button/MyButton';
 import { useNavigate } from 'react-router-dom';
+import { MyButton } from '../../components/button/MyButton';
+import { ArrowBack } from '@mui/icons-material';
 
-export const ABOUT_ME_ID = 'about-me';
+export const ABOUT_ME_PAGE_ID = 'about-me-page';
 
 const AboutMeContainerStyle = withMyTheme((theme) => css`
-    padding: 15vh 5vw;
+    min-height: 100vh;
     background-color: ${theme.palette.background.default};
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 5vw;
-    margin: 0 auto;
+    padding: 0 10vw;
     
     ${mobileCss(`
         flex-direction: column;
-        padding: 40px 20px;
+        padding: 100px 20px 40px;
         gap: 30px;
     `)}
 `);
 
 const ContentContainerStyle = css`
     flex: 1;
-    max-width: 45vw;
-    display: flex;
-    flex-direction: column;
-    gap: 2vh;
     
     ${mobileCss(`
-        max-width: 100%;
+        max-width: 100vw;
         text-align: center;
-        gap: 20px;
     `)}
 `;
-
-const ButtonStyle = withMyTheme((theme) => css`
-    align-self: flex-start;
-    &.MuiButton-contained {
-        background-color: ${theme.palette.primary.dark};
-    }
-    
-    ${mobileCss(`
-        align-self: center;
-    `)}
-`);
 
 const AboutMeTitleStyle = withMyTheme((theme) => css`
     font-size: 2.5rem;
     font-weight: 600;
     color: ${theme.palette.text.primary};
+    margin-bottom: 30px;
     font-family: ${theme.typography.h1.fontFamily};
-    margin: 0;
-
+    
     ${mobileCss(`
         font-size: 2rem;
         margin-bottom: 20px;
@@ -65,7 +50,7 @@ const AboutMeTitleStyle = withMyTheme((theme) => css`
 
 const AboutMeDescriptionStyle = withMyTheme((theme) => css`
     color: ${theme.palette.text.primary};
-    font-size: 1.8vw;
+    font-size: 1.1rem;
     line-height: 1.8;
     white-space: pre-line;
     font-family: ${theme.typography.body1.fontFamily};
@@ -77,18 +62,44 @@ const AboutMeDescriptionStyle = withMyTheme((theme) => css`
 `);
 
 const ImageContainerStyle = css`
+    position: relative;
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     max-width: 500px;
-    position: relative;
     
     ${mobileCss(`
         max-width: 300px;
         width: 100%;
     `)}
 `;
+
+const AboutMeImageStyle = css`
+    width: 100%;
+    height: auto;
+    border-radius: ${SMALL_ROUNDED_CORNER};
+    object-fit: cover;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 2;
+    
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+`;
+
+const ButtonStyle = withMyTheme((theme) => css`
+    position: fixed;
+    top: 5vh;
+    left: 5vw;
+    background-color: ${theme.palette.primary.dark};
+    
+    ${mobileCss(`
+        align-self: center;
+    `)}
+`);
 
 const ImageBackgroundStyle = withMyTheme((theme) => css`
     position: absolute;
@@ -101,43 +112,26 @@ const ImageBackgroundStyle = withMyTheme((theme) => css`
     z-index: 1;
 `);
 
-const AboutMeImageStyle = css`
-    position: relative;
-    width: 100%;
-    height: auto;
-    border-radius: ${SMALL_ROUNDED_CORNER};
-    object-fit: cover;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    z-index: 2;
-    background-color: white;
-    
-    &:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-    }
-`;
-
-export const AboutMe = () => {
+export const AboutMePage = () => {
     const { t } = useTranslation();
-
     const navigate = useNavigate();
 
     return (
-        <div css={AboutMeContainerStyle} id={ABOUT_ME_ID}>
+        <div css={AboutMeContainerStyle} id={ABOUT_ME_PAGE_ID}>
+             <MyButton 
+                    text="Powrót"
+                    onClick={() => navigate(-1)}
+                    variant="contained"
+                    startIcon={<ArrowBack />}
+                    additionalCss={ButtonStyle}
+            />
             <div css={ContentContainerStyle}>
                 <h2 css={AboutMeTitleStyle}>
                     {t('aboutMe.title')}
                 </h2>
                 <p css={AboutMeDescriptionStyle}>
-                    {t('aboutMe.shortDescription')}
+                    {t('aboutMe.description')}
                 </p>
-                <MyButton 
-                    text="CZYTAJ WIĘCEJ"
-                    onClick={() => navigate(`/poznajmy-sie`)}
-                    variant="contained"
-                    additionalCss={ButtonStyle}
-                />
             </div>
             
             <div css={ImageContainerStyle}>

@@ -1,0 +1,51 @@
+
+{
+    "title": {
+        "title": "Agata Sawicka",
+        "button": "Makeup Artist"
+    },
+    "aboutMe": {
+        "title": "About Me",
+        "description": "I've been working in the world of makeup since 2009. My career developed gradually—from being a makeup artist at a drugstore, to becoming a trainer and instructor, and finally working for prestigious makeup brands. I gained experience on TV sets, music videos, fashion shows, and as an instructor at a makeup school.\nMy years of experience led to the opening of my own studio, where I do special occasion makeup, provide one-on-one lessons, and train future makeup artists.\n\nIn my work, my priority is to bring out and emphasize natural beauty. Every client is an inspiration to me, and makeup is a tool for highlighting their uniqueness. I invite you to book my services 🤍"
+    },
+    "offers": {
+        "title": "Our Offers"
+    },
+    "portfolio": {
+        "title": "Portfolio"
+    },
+    "contact": {
+        "title": "Get in Touch",
+        "description": "Ready to enhance your natural beauty? Contact me to schedule your makeup session or to learn more about my services. I'm here to help you look and feel your absolute best for any occasion.",
+        "form": {
+            "name": "Name",
+            "namePlaceholder": "Enter your full name",
+            "email": "Email",
+            "emailPlaceholder": "Enter your email address",
+            "message": "Message",
+            "messagePlaceholder": "Tell me about your makeup needs and preferred appointment time",
+            "submit": "Send Message"
+        }
+    },
+    "reviews": {
+        "title": "Client Reviews",
+        "description": "See what our clients have to say about our services. We're proud of the positive feedback we receive from our satisfied customers.",
+        "google": {
+            "title": "Google Reviews",
+            "description": "Read authentic reviews from our clients on Google. See real experiences and ratings from satisfied customers.",
+            "button": "View Google Reviews"
+        },
+        "booksy": {
+            "title": "Booksy Reviews",
+            "description": "Check out our professional profile and client testimonials on Booksy. Book your appointment directly through our platform.",
+            "button": "View Booksy Profile"
+        }
+    },
+    "footer": {
+        "followUs": "Follow Us",
+        "contact": "Contact Info",
+        "address": "Rdestowa 138a, 81-577 Gdynia, Poland",
+        "phone": "+48 502 403 212",
+        "email": "agatasawicka.ols@gmail.com"
+    }
+}

@@ -5,6 +5,8 @@ import { withMyTheme } from '../../theme/theme';
 import { isMobile, mobileCss } from '../../theme/isMobile';
 import { ContactForm } from './ContactForm';
 
+export const CONTACT_ID = 'contact';
+
 const ContactContainerStyle = withMyTheme((theme) => css`
     background-color: ${theme.palette.background.default};
     display: flex;
@@ -23,8 +25,6 @@ const ContactContainerStyle = withMyTheme((theme) => css`
         background-repeat: no-repeat;
     `)}
 `);
-
-
 
 const ImageContainerStyle = css`
     flex: 1;
@@ -48,7 +48,7 @@ const ContactImageStyle = css`
 
 export const Contact = () => {
     return (
-        <div css={ContactContainerStyle}>
+        <div css={ContactContainerStyle} id={CONTACT_ID}>
             <ContactForm />
             
             {!isMobile() && <div css={ImageContainerStyle}>

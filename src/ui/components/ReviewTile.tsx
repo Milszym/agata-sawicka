@@ -34,14 +34,23 @@ const LogoStyle = css`
 `;
 
 const TileTitleStyle = withMyTheme((theme) => css`
-    font-size: 1.5rem;
     font-weight: 600;
     color: ${theme.palette.text.primary};
+    font-family: ${theme.typography.h1.fontFamily};
+    font-size: 1.5vw;
+    ${mobileCss(`
+        font-size: 7vw;
+    `)}
 `);
 
 const TileDescriptionStyle = withMyTheme((theme) => css`
     color: ${theme.palette.text.primary};
     margin-bottom: 25px;
+    font-family: ${theme.typography.body1.fontFamily};
+    font-size: 1.1vw;
+    ${mobileCss(`
+        font-size: 4vw;
+    `)}
 `);
 
 interface ReviewTileProps {

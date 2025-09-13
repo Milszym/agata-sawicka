@@ -6,6 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import { withMyTheme } from "../../theme/theme";
 import { css } from "@emotion/react";
 import { mobileCss } from "../../theme/isMobile";
+import { MyButton } from '../../components/button/MyButton';
+import { Image } from '../../Images';
+
+export const OFFERS_ID = 'offers';
 
 interface OfferImage {
     url: string;
@@ -38,26 +42,45 @@ const OffersContainerStyle = withMyTheme((theme) => css`
 `)
 
 const OffersTitleStyle = withMyTheme((theme) => css`
-    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-size: 2vw;
     font-family: ${theme.typography.h1.fontFamily};
     color: ${theme.palette.primary.main};
-    margin-bottom: 3rem;
     text-align: center;
     ${mobileCss(`
-        font-size: clamp(2rem, 8vw, 3rem);
+        font-size: 7vw;
         margin-bottom: 2rem;
     `)}
 `)
 
 const OffersGridStyle = withMyTheme(() => css`
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
     max-width: 1200px;
     width: 100%;
+    
+    /* For 4 items, display 2x2 grid */
+    &.grid-4-items {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* For other numbers, display 3 columns */
+    &:not(.grid-4-items) {
+        grid-template-columns: repeat(3, 1fr);
+        
+        /* For last row with 2 items, center them */
+        &.has-last-two > *:last-child:nth-child(3n-1) {
+            grid-column: 2;
+        }
+    }
+
     ${mobileCss(`
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
         gap: 1.5rem;
+        
+        /* Reset any special grid positioning on mobile */
+        & > *:last-child:nth-child(3n-1) {
+            grid-column: auto;
+        }
     `)}
 `)
 
@@ -79,10 +102,10 @@ const OfferTileStyle = withMyTheme((theme) => css`
 
 const OfferImageStyle = withMyTheme(() => css`
     width: 100%;
-    height: 200px;
+    height: 35vh;
     object-fit: cover;
     ${mobileCss(`
-        height: 180px;
+        height: 50vh;
     `)}
 `)
 
@@ -99,19 +122,9 @@ const OfferTitleStyle = withMyTheme((theme) => css`
     color: ${theme.palette.primary.main};
     font-family: ${theme.typography.h1.fontFamily};
     margin-bottom: 1rem;
+    align-self: center;
     ${mobileCss(`
         font-size: 1.3rem;
-    `)}
-`)
-
-const OfferDescriptionStyle = withMyTheme((theme) => css`
-    font-size: 1rem;
-    color: ${theme.palette.text.primary};
-    font-family: ${theme.typography.body1.fontFamily};
-    line-height: 1.6;
-    flex: 1;
-    ${mobileCss(`
-        font-size: 0.95rem;
     `)}
 `)
 
@@ -145,6 +158,39 @@ const NoOffersStyle = withMyTheme((theme) => css`
     font-family: ${theme.typography.body1.fontFamily};
 `)
 
+const ButtonStyle = withMyTheme((theme) => css`
+    align-self: center;
+    width: 50%;
+`);
+
+const BookingButtonStyle = withMyTheme(() => css`
+    margin-top: 2rem;
+    background-color: #00B388 !important; // Booksy brand color
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+    &:hover {
+        background-color: #00A67C !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 179, 136, 0.2);
+    }
+
+    ${mobileCss(`
+        width: 90%;
+        margin: 2rem auto;
+    `)}
+`);
+
+const BookingIconStyle = css`
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    filter: brightness(0) invert(1); // Make the logo white
+`;
+
 export const Offers = () => {
     const { t } = useTranslation()
     const navigate = useNavigate();
@@ -163,13 +209,13 @@ export const Offers = () => {
                 if (Array.isArray(data) && data.length > 0) {
                     console.log(data[0].acf)
                     const isValid = data.every(item => item.id !== undefined &&
-                            item.acf?.nazwa_oferty !== undefined &&
-                            item.acf?.opis_oferty !== undefined &&
-                            item.acf?.obraz_oferty?.url !== undefined
+                        item.acf?.nazwa_oferty !== undefined &&
+                        item.acf?.opis_oferty !== undefined &&
+                        item.acf?.obraz_oferty?.url !== undefined
                     );
 
                     if (isValid) {
-                        setOffers(data);
+                        setOffers(data.concat(data));
                     } else {
                         setError('Data format is incorrect.');
                         setOffers([]);
@@ -220,24 +266,49 @@ export const Offers = () => {
         );
     }
 
+    const handleBookingClick = () => {
+        window.open('https://booksy.com/pl-pl/dl/show-business/214831', '_blank');
+    };
+
     return (
-        <section css={OffersContainerStyle}>
+        <section css={OffersContainerStyle} id={OFFERS_ID}>
             <h2 css={OffersTitleStyle}>{t('offers.title')}</h2>
-            <div css={OffersGridStyle}>
+            <MyButton
+                text="UMÓW WIZYTĘ"
+                onClick={handleBookingClick}
+                variant="contained"
+                additionalCss={BookingButtonStyle}
+                startIcon={
+                    <img 
+                        src={Image.BOOKSY_LOGO} 
+                        alt="Booksy Logo" 
+                        css={BookingIconStyle}
+                    />
+                }
+            />
+            <div css={OffersGridStyle} className={`
+                ${offers.length === 4 ? 'grid-4-items' : ''}
+                ${offers.length % 3 === 2 ? 'has-last-two' : ''}
+            `}>
                 {offers.map(offer => (
-                    <div 
-                        key={offer.id} 
+                    <div
+                        key={offer.id}
                         css={OfferTileStyle}
                         onClick={() => handleOfferClick(offer.id)}
                     >
-                        <img 
+                        <img
                             css={OfferImageStyle}
-                            src={offer.acf.obraz_oferty.url} 
-                            alt={offer.acf.obraz_oferty.alt} 
+                            src={offer.acf.obraz_oferty.url}
+                            alt={offer.acf.obraz_oferty.alt}
                         />
                         <div css={OfferContentStyle}>
                             <h3 css={OfferTitleStyle}>{offer.acf.nazwa_oferty}</h3>
-                            <p css={OfferDescriptionStyle}>{offer.acf.opis_oferty}</p>
+                            <MyButton
+                                text="CZYTAJ WIĘCEJ"
+                                onClick={() => navigate(`/oferta/${offer.id}`)}
+                                variant="contained"
+                                additionalCss={ButtonStyle}
+                            />
                         </div>
                     </div>
                 ))}

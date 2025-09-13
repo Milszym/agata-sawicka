@@ -101,13 +101,16 @@ const OfferDescriptionStyle = withMyTheme((theme) => css`
     `)}
 `)
 
-const BackButtonStyle = withMyTheme(() => css`
-    margin-bottom: 2rem;
-    align-self: flex-start;
+const BackButtonStyle = withMyTheme((theme) => css`
+    position: fixed;
+    top: 5vh;
+    left: 5vw;
+    background-color: ${theme.palette.primary.dark};
+    
     ${mobileCss(`
-        margin-bottom: 1.5rem;
+        align-self: center;
     `)}
-`)
+`);
 
 const LoadingStyle = withMyTheme((theme) => css`
     display: flex;
@@ -188,7 +191,7 @@ export const OfferDetails = () => {
     }, [id]);
 
     const handleBackClick = () => {
-        navigate('/');
+        navigate(-1);
     };
 
     if (loading) {
@@ -236,8 +239,8 @@ export const OfferDetails = () => {
     return (
         <section css={OfferDetailsContainerStyle}>
             <MyButton
-                text="Back to Offers"
-                variant="outlined"
+                text="Powrót"
+                variant="contained"
                 colorVariant="primary"
                 startIcon={<ArrowBack />}
                 onClick={handleBackClick}

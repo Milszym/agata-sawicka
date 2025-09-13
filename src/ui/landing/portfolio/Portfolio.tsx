@@ -7,23 +7,22 @@ import { isMobile } from '../../theme/isMobile';
 import { PortfolioDesktop } from './PortfolioDesktop';
 import { PortfolioMobile } from './PortfolioMobile';
 
+export const PORTFOLIO_ID = 'portfolio';
+
 const PortfolioContainerStyle = withMyTheme((theme) => css`
     width: 100vw;
-    margin-top: 5em;
-    background-color: ${theme.palette.background.default};
-    margin-bottom: 5em;
+    padding: 12vh 0;
+    background-color: ${theme.palette.background.paper};
 `);
 
 const PortfolioTitleStyle = withMyTheme((theme) => css`
     text-align: center;
     margin-bottom: 50px;
-    color: ${theme.palette.text.primary};
+    color: ${theme.palette.primary.main};
     font-size: 2.5rem;
     font-weight: 600;
     font-family: ${theme.typography.h1.fontFamily};
 `);
-
-
 
 export const Portfolio = () => {
     const { t } = useTranslation();
@@ -39,7 +38,7 @@ export const Portfolio = () => {
     }, []);
 
     return (
-        <div css={PortfolioContainerStyle}>
+        <div css={PortfolioContainerStyle} id={PORTFOLIO_ID}>
             <div css={PortfolioTitleStyle}>
                 {t('portfolio.title')}
             </div>

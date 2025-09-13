@@ -4,46 +4,47 @@
         "button": "Makeup Artist"
     },
     "aboutMe": {
-        "title": "About Me",
-        "description": "I've been working in the world of makeup since 2009. My career developed gradually—from being a makeup artist at a drugstore, to becoming a trainer and instructor, and finally working for prestigious makeup brands. I gained experience on TV sets, music videos, fashion shows, and as an instructor at a makeup school.\nMy years of experience led to the opening of my own studio, where I do special occasion makeup, provide one-on-one lessons, and train future makeup artists.\n\nIn my work, my priority is to bring out and emphasize natural beauty. Every client is an inspiration to me, and makeup is a tool for highlighting their uniqueness. I invite you to book my services 🤍"
+        "title": "Poznajmy się!",
+        "description": "W świecie makijażu funkcjonuję od 2009 roku. Moja kariera rozwijała się stopniowo – od wizażystki w drogerii, przez stanowisko trenera i szkoleniowca, aż po pracę dla prestiżowych marek makijażowych. Zdobywałam doświadczenie na planach telewizyjnych, teledyskach, pokazach mody oraz jako instruktorka w szkole makijażu.\n\nWieloletnie doświadczenie zaowocowało otwarciem własnego studia, w którym realizuję makijaże okolicznościowe, prowadzę indywidualne lekcje i szkolę przyszłych wizażystów.\n\nW mojej pracy priorytetem jest wydobycie i podkreślenie naturalnego piękna. Każda klientka jest dla mnie inspiracją, a makijaż stanowi narzędzie do podkreślania jej unikalności. Zapraszam Cię na moje usługi🤍\n\nPoza pracą jestem spełnioną żoną i mamą dwóch małych łobuzów, dzięki którym w moim życiu nie ma miejsca na nudę. Kocham też podróże, ale zdecydowanie bardziej pociąga mnie eksplorowanie i poznawanie świata niż typowy relaks all inclusive.",
+        "shortDescription": "Mam przyjemność tworzyć makijaże od 2009 roku, a moje wieloletnie doświadczenie pozwoliło mi otworzyć własne studio. Z pasją podkreślam naturalne piękno, ponieważ każda z Was jest dla mnie wyjątkową inspiracją."
     },
     "offers": {
-        "title": "Our Offers"
+        "title": "Oferty"
     },
     "portfolio": {
         "title": "Portfolio"
     },
     "contact": {
-        "title": "Get in Touch",
-        "description": "Ready to enhance your natural beauty? Contact me to schedule your makeup session or to learn more about my services. I'm here to help you look and feel your absolute best for any occasion.",
+        "title": "Skontaktuj się",
+        "description": "Gotowa na podkreślenie swojego naturalnego piękna? Skontaktuj się ze mną, aby umówić sesję makijażową lub dowiedzieć się więcej o moich usługach. Jestem tutaj, aby pomóc Ci wyglądać i czuć się najlepiej na każdą okazję.",
         "form": {
-            "name": "Name",
-            "namePlaceholder": "Enter your full name",
+            "name": "Imię",
+            "namePlaceholder": "Wprowadź swoje imię i nazwisko",
             "email": "Email",
-            "emailPlaceholder": "Enter your email address",
-            "message": "Message",
-            "messagePlaceholder": "Tell me about your makeup needs and preferred appointment time",
-            "submit": "Send Message"
+            "emailPlaceholder": "Wprowadź swój adres email",
+            "message": "Wiadomość",
+            "messagePlaceholder": "Opowiedz mi o swoich potrzebach makijażowych i preferowanym terminie spotkania",
+            "submit": "Wyślij wiadomość"
         }
     },
     "reviews": {
-        "title": "Client Reviews",
-        "description": "See what our clients have to say about our services. We're proud of the positive feedback we receive from our satisfied customers.",
+        "title": "Opinie Klientów",
+        "description": "Zobacz co mówią o nas nasi klienci. Jesteśmy dumni z pozytywnych opinii, które otrzymujemy od zadowolonych klientów.",
         "google": {
-            "title": "Google Reviews",
-            "description": "Read authentic reviews from our clients on Google. See real experiences and ratings from satisfied customers.",
-            "button": "View Google Reviews"
+            "title": "Opinie Google",
+            "description": "Przeczytaj autentyczne opinie moich klientów na Google.",
+            "button": "Zobacz opinie Google"
         },
         "booksy": {
-            "title": "Booksy Reviews",
-            "description": "Check out our professional profile and client testimonials on Booksy. Book your appointment directly through our platform.",
-            "button": "View Booksy Profile"
+            "title": "Opinie Booksy",
+            "description": "Sprawdź nasz profil i opinie klientów na Booksy.",
+            "button": "Zobacz profil Booksy"
         }
     },
     "footer": {
-        "followUs": "Follow Us",
-        "contact": "Contact Info",
-        "address": "Rdestowa 138a, 81-577 Gdynia, Poland",
+        "followUs": "Śledź nas",
+        "contact": "Kontakt",
+        "address": "Rdestowa 138a, 81-577 Gdynia, Polska",
         "phone": "+48 502 403 212",
         "email": "agatasawicka.ols@gmail.com"
     }

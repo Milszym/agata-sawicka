@@ -4,6 +4,7 @@ import { lightTheme } from './ui/theme/theme';
 import { ThemeProvider } from '@emotion/react';
 import { AppContent } from './ui/AppContent';
 import { OfferDetails } from './ui/landing/offers/OfferDetails';
+import { AboutMePage } from './ui/landing/aboutMe/AboutMePage';
 
 const App = () => {
   const [width, setWidth] = useState(window.innerWidth);
@@ -40,6 +41,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<AppContent />} />
           <Route path="/offer/:id" element={<OfferDetails />} />
+          <Route path="/poznajmy-sie" element={<AboutMePage />} />
         </Routes>
       </Router>
     </ThemeProvider>

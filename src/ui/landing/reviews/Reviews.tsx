@@ -6,33 +6,43 @@ import { Image } from '../../Images';
 import { withMyTheme } from '../../theme/theme';
 import { mobileCss } from '../../theme/isMobile';
 
+export const REVIEWS_ID = 'reviews';
+
 const GOOGLE_URL = 'https://maps.app.goo.gl/pnrCpbJJaBfekdLr8';
 const BOOKSY_URL = 'https://booksy.com/pl-pl/214831_agata-sawicka-makeup-artist_makijaz_21029_gdynia?do=invite&utm_medium=c2c_referral#ba_s=dl_1:~:text=Opinie-,Opinie,-%2C%20przy%20kt%C3%B3rych%20widoczny'
 
 const ReviewsContainerStyle = withMyTheme((theme) => css`
     background-color: ${theme.palette.background.default};
+    padding: 12vh 0;
 `);
 
 const ReviewsTitleStyle = withMyTheme((theme) => css`
     text-align: center;
     margin-bottom: 40px;
     color: ${theme.palette.text.primary};
-    font-size: 2.5rem;
+    font-family: ${theme.typography.h1.fontFamily};
+    font-size: 2vw;
     font-weight: 600;
     
     ${mobileCss(`
-        font-size: 2rem;
+        font-size: 8vw;
     `)}
 `);
 
 const ReviewsDescriptionStyle = withMyTheme((theme) => css`
     text-align: center;
+    max-width: 50vw;
     margin-bottom: 50px;
-    color: ${theme.palette.text.secondary};
-    font-size: 1.1rem;
+    color: ${theme.palette.text.primary};
+    font-family: ${theme.typography.body1.fontFamily};
+    font-size: 1.5vw;
     margin-left: auto;
     margin-right: auto;
     line-height: 1.6;
+    ${mobileCss(`
+        font-size: 5vw;
+        max-width: 90vw;
+    `)}
 `);
 
 const TilesContainerStyle = withMyTheme(() => css`
@@ -54,7 +64,7 @@ export const Reviews = () => {
     const { t } = useTranslation();
 
     return (
-        <div css={ReviewsContainerStyle}>
+        <div css={ReviewsContainerStyle} id={REVIEWS_ID}>
             <h2 css={ReviewsTitleStyle}>
                 {t('reviews.title')}
             </h2>
