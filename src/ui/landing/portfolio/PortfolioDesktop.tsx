@@ -6,14 +6,14 @@ import { withMyTheme, SMALL_ROUNDED_CORNER } from '../../theme/theme';
 const DesktopGridStyle = withMyTheme(() => css`
     display: grid;
     padding: 0 5vw;
-    margin: 10vh 5vw;
+    margin: 5vh 5vw;
     grid-template-columns: repeat(3, 1fr);
     gap: 5vw;
 `);
 
 const DesktopImageStyle = withMyTheme(() => css`
     width: 100%;
-    height: 75vh;
+    height: 60vh;
     object-fit: cover;
     border-radius: ${SMALL_ROUNDED_CORNER};
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);

@@ -13,16 +13,17 @@ const BOOKSY_URL = 'https://booksy.com/pl-pl/214831_agata-sawicka-makeup-artist_
 
 const ReviewsContainerStyle = withMyTheme((theme) => css`
     background-color: ${theme.palette.background.default};
-    padding: 12vh 0;
+    padding: 4vh 0;
 `);
 
 const ReviewsTitleStyle = withMyTheme((theme) => css`
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 1vh;
     color: ${theme.palette.text.primary};
     font-family: ${theme.typography.h1.fontFamily};
     font-size: 2vw;
     font-weight: 600;
+    margin-top: 0;
     
     ${mobileCss(`
         font-size: 8vw;
@@ -32,7 +33,7 @@ const ReviewsTitleStyle = withMyTheme((theme) => css`
 const ReviewsDescriptionStyle = withMyTheme((theme) => css`
     text-align: center;
     max-width: 50vw;
-    margin-bottom: 50px;
+    margin-bottom: 5vh;
     color: ${theme.palette.text.primary};
     font-family: ${theme.typography.body1.fontFamily};
     font-size: 1.5vw;

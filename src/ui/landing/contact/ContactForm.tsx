@@ -53,8 +53,10 @@ const FormFieldsStyle = withMyTheme(() => css`
 const InputFieldStyle = withMyTheme((theme) => css`
     & .MuiInputLabel-root {
         color: ${theme.palette.secondary.contrastText};
+        font-family: ${theme.typography.body1.fontFamily};
     }
     & .MuiOutlinedInput-root {
+        font-family: ${theme.typography.body1.fontFamily};
         color: ${theme.palette.secondary.contrastText};
         & fieldset {
             border-color: ${theme.palette.secondary.contrastText};

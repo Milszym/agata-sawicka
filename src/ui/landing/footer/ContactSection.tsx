@@ -7,7 +7,7 @@ import { mobileCss } from '../../theme/isMobile';
 const ContactSectionStyle = withMyTheme(() => css`
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 8px;
     
     ${mobileCss(`
         align-items: center;
@@ -18,6 +18,7 @@ const ContactTitleStyle = withMyTheme((theme) => css`
     color: ${theme.palette.primary.contrastText};
     font-size: 1.5rem;
     font-weight: 600;
+    margin-top: 0;
     margin-bottom: 10px;
     font-family: ${theme.typography.h1.fontFamily};
 `);
@@ -26,7 +27,7 @@ const ContactItemStyle = withMyTheme((theme) => css`
     color: ${theme.palette.primary.contrastText};
     font-size: 1rem;
     line-height: 1.5;
-    font-family: ${theme.typography.body1.fontFamily};
+    font-family: 'Lato';
     text-decoration: none;
     
     &:hover {
@@ -64,15 +65,15 @@ export const ContactSection = () => {
             <h3 css={ContactTitleStyle}>
                 {t('footer.contact')}
             </h3>
-            <div css={ContactItemStyle}>
-                {t('footer.address')}
-            </div>
             <a css={ContactLinkStyle} onClick={handlePhoneClick}>
                 {t('footer.phone')}
             </a>
             <a css={ContactLinkStyle} onClick={handleEmailClick}>
                 {t('footer.email')}
             </a>
+            <div css={ContactItemStyle}>
+                {t('footer.address')}
+            </div>
         </div>
     );
 };

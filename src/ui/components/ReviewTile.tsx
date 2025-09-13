@@ -8,6 +8,7 @@ const TileStyle = withMyTheme((theme) => css`
     background: ${theme.palette.background.paper};
     border: 1px solid ${theme.palette.divider};
     border-radius: 12px;
+    font-family: ${theme.typography.h1.fontFamily};
     padding: 30px;
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -34,22 +35,14 @@ const LogoStyle = css`
 `;
 
 const TileTitleStyle = withMyTheme((theme) => css`
-    font-weight: 600;
+    font-weight: 400;
     color: ${theme.palette.text.primary};
     font-family: ${theme.typography.h1.fontFamily};
     font-size: 1.5vw;
+    margin: 0 0 2vh 0;
     ${mobileCss(`
         font-size: 7vw;
-    `)}
-`);
-
-const TileDescriptionStyle = withMyTheme((theme) => css`
-    color: ${theme.palette.text.primary};
-    margin-bottom: 25px;
-    font-family: ${theme.typography.body1.fontFamily};
-    font-size: 1.1vw;
-    ${mobileCss(`
-        font-size: 4vw;
+        margin: 0 0 3vh 0;
     `)}
 `);
 
@@ -84,12 +77,9 @@ export const ReviewTile = ({
             <div css={TileTitleStyle}>
                 {title}
             </div>
-            <p css={TileDescriptionStyle}>
-                {description}
-            </p>
             <MyButton
                 text={buttonText}
-                variant="contained"
+                variant="outlined"
                 onClick={handleClick}
             />
         </div>

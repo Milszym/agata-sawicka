@@ -8,6 +8,7 @@ import { PORTFOLIO_ID } from "../landing/portfolio/Portfolio";
 import { REVIEWS_ID } from "../landing/reviews/Reviews";
 import { CONTACT_ID } from "../landing/contact/Contact";
 import { NavigationMobile } from "./NavigationMobile";
+import { SocialMediaIcons } from "../landing/footer/SocialMediaIcons";
 
 const NavStyle = withMyTheme(() => css`
     position: fixed;
@@ -15,7 +16,14 @@ const NavStyle = withMyTheme(() => css`
     right: 50px;
     display: flex;
     gap: 30px;
+    align-items: center;
     z-index: 10;
+`);
+
+const NavLinksStyle = withMyTheme(() => css`
+    display: flex;
+    align-items: center;
+    gap: 30px;
 `);
 
 const NavLinkStyle = withMyTheme((theme) => css`
@@ -89,11 +97,14 @@ export const Navigation = () => {
 
     return (
         <nav css={NavStyle}>
-            <span css={NavLinkStyle} onClick={() => scrollToSection(ABOUT_ME_ID)}>Poznajmy się</span>
-            <span css={NavLinkStyle} onClick={() => scrollToSection(OFFERS_ID)}>Oferta</span>
-            <span css={NavLinkStyle} onClick={() => scrollToSection(PORTFOLIO_ID)}>Portfolio</span>
-            <span css={NavLinkStyle} onClick={() => scrollToSection(REVIEWS_ID)}>Opinie</span>
-            <span css={NavLinkStyle} onClick={() => scrollToSection(CONTACT_ID)}>Kontakt</span>
+            <div css={NavLinksStyle}>
+                <span css={NavLinkStyle} onClick={() => scrollToSection(ABOUT_ME_ID)}>Poznajmy się</span>
+                <span css={NavLinkStyle} onClick={() => scrollToSection(OFFERS_ID)}>Oferta</span>
+                <span css={NavLinkStyle} onClick={() => scrollToSection(PORTFOLIO_ID)}>Portfolio</span>
+                <span css={NavLinkStyle} onClick={() => scrollToSection(REVIEWS_ID)}>Opinie</span>
+                <span css={NavLinkStyle} onClick={() => scrollToSection(CONTACT_ID)}>Kontakt</span>
+            </div>
+            <SocialMediaIcons />
         </nav>
     );
 }

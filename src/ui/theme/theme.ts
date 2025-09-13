@@ -25,9 +25,9 @@ export const lightTheme = createTheme({
         },
     },
     typography: {
-        fontFamily: "'Playful Display'",
+        fontFamily: "'Playfair Display'",
         h1: {
-            fontFamily: "'Playful Display'",
+            fontFamily: "'Playfair Display'",
         },
         body1: {
             fontFamily: "'Ysabeau'",

@@ -1,14 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import * as React from 'react';
-import { useTranslation } from "react-i18next"
 import { Fullscreen } from "../../components/Fullscreen"
 import { MyButton } from "../../components/button/MyButton"
-import { MyHeader } from "../../components/text/MyHeader"
-import { MyText } from "../../components/text/MyText"
 import { Image } from "../../Images"
 import { withMyTheme } from "../../theme/theme"
-import { mobileCss } from '../../theme/isMobile';
+import { isMobile, mobileCss } from '../../theme/isMobile';
 import { Navigation } from '../../navigation/Navigation';
 
 const BackgroundStyle = withMyTheme(() => css`
@@ -25,7 +22,7 @@ const getLogoStyle = (scrollProgress: number) => withMyTheme(() => {
     // Initial and final sizes for desktop and mobile
     const desktopMaxSize = 45;
     const desktopMinSize = 15;
-    const mobileMaxSize = 50;
+    const mobileMaxSize = 60;
     const mobileMinSize = 30;
 
     // Calculate current size based on scroll progress
@@ -67,11 +64,15 @@ const TitleContentStyle = withMyTheme((theme) => css`
     width: 45vw;
 
     ${mobileCss(`
-        margin: 25vh auto 0;
-        padding: 0 20px;
+        margin-top: 0;
+        margin-bottom: 5vh;
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+        justify-content: flex-end;
         text-align: center;
         align-items: center;
-        width: auto;
+        width: 90vw;
     `)}
 `);
 
@@ -83,8 +84,8 @@ const TitleStyle = withMyTheme((theme) => css`
     opacity: 0.9;
 
     ${mobileCss(`
-        font-size: 18px;
-        letter-spacing: 2px;
+        margin-top: 7vh;
+        font-size: 7.5vw;
     `)}
 `);
 
@@ -96,7 +97,7 @@ const DescriptionStyle = withMyTheme((theme) => css`
     max-width: 600px;
 
     ${mobileCss(`
-        font-size: 16px;
+        font-size: 6vw;
     `)}
 `);
 
@@ -145,7 +146,7 @@ export const Title = () => {
 
     return <Fullscreen additionalCss={() => css`position: relative;`}>
         <img
-            src={Image.HEROBANNER}
+            src={isMobile() ? Image.HEROBANNER_MOBILE : Image.HEROBANNER}
             alt="HeroBanner Background"
             css={BackgroundStyle}
         />

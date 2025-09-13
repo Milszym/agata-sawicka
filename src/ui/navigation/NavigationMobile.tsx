@@ -8,6 +8,7 @@ import { OFFERS_ID } from "../landing/offers/Offers";
 import { PORTFOLIO_ID } from "../landing/portfolio/Portfolio";
 import { REVIEWS_ID } from "../landing/reviews/Reviews";
 import { CONTACT_ID } from "../landing/contact/Contact";
+import { SocialMediaIcons } from '../landing/footer/SocialMediaIcons';
 
 const MenuButtonStyle = withMyTheme((theme) => css`
     position: fixed;
@@ -106,6 +107,7 @@ export const NavigationMobile = () => {
                         <span css={MenuItemStyle} onClick={() => scrollToSection(CONTACT_ID)}>
                             Kontakt
                         </span>
+                        <SocialMediaIcons negative={true}/>
                     </nav>
                 </div>
             )}

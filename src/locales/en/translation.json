@@ -12,7 +12,8 @@
         "title": "Oferty"
     },
     "portfolio": {
-        "title": "Portfolio"
+        "title": "Portfolio",
+        "see_more_on_instagram": "See more on Instagram"
     },
     "contact": {
         "title": "Skontaktuj się",
@@ -28,21 +29,19 @@
         }
     },
     "reviews": {
-        "title": "Opinie Klientów",
-        "description": "Zobacz co mówią o nas nasi klienci. Jesteśmy dumni z pozytywnych opinii, które otrzymujemy od zadowolonych klientów.",
+        "title": "Opinie",
+        "description": "Zachęcam do zapoznania się z opiniami na temat moich prac oraz mojego studio.",
         "google": {
             "title": "Opinie Google",
-            "description": "Przeczytaj autentyczne opinie moich klientów na Google.",
-            "button": "Zobacz opinie Google"
+            "button": "Zobacz więcej"
         },
         "booksy": {
             "title": "Opinie Booksy",
-            "description": "Sprawdź nasz profil i opinie klientów na Booksy.",
-            "button": "Zobacz profil Booksy"
+            "button": "Zobacz więcej"
         }
     },
     "footer": {
-        "followUs": "Śledź nas",
+        "followUs": "Social Media",
         "contact": "Kontakt",
         "address": "Rdestowa 138a, 81-577 Gdynia, Polska",
         "phone": "+48 502 403 212",

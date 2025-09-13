@@ -1,9 +1,13 @@
 export enum Image {
     HEROBANNER = '/images/herobanner_gradient.jpg',
+    HEROBANNER_MOBILE = '/images/herobanner_mobile.jpg',
+    HEROBANNER_MOBILE2 = '/images/herobanner_mobile2.jpg',
     LOGO = '/images/logo_agata_sawicka_black.png',
     LOGO_BLACK = '/images/logo_agata_sawicka_black.png',
     LOGO_WHITE = '/images/logo_agata_sawicka_white.png',
     BOOKSY_LOGO = '/images/booksy_logo.png',
+    BOOKSY_SHORT_LOGO = '/images/booksy_short_logo.svg',
+    BOOKSY_SHORT_LOGO_WHITE = '/images/booksy_short_logo_white.svg',
     GOOGLE_LOGO = '/images/google_g_logo.png',
     ABOUT_ME = '/images/about_me.png',
     PORTFOLIO_1 = '/images/portfolio_1.png',

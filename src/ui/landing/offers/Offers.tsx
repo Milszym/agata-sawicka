@@ -5,9 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { withMyTheme } from "../../theme/theme";
 import { css } from "@emotion/react";
-import { mobileCss } from "../../theme/isMobile";
+import { mobileCss, isMobile } from "../../theme/isMobile";
 import { MyButton } from '../../components/button/MyButton';
 import { Image } from '../../Images';
+import { OffersMobile } from './OffersMobile';
 
 export const OFFERS_ID = 'offers';
 
@@ -22,7 +23,7 @@ interface AcfFields {
     obraz_oferty: OfferImage;
 }
 
-interface OfferDto {
+export interface OfferDto {
     id: number;
     acf: AcfFields;
 }
@@ -110,7 +111,7 @@ const OfferImageStyle = withMyTheme(() => css`
 `)
 
 const OfferContentStyle = withMyTheme(() => css`
-    padding: 1.5rem;
+    padding: 0 1.5rem 1.5rem 1.5rem;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -123,6 +124,8 @@ const OfferTitleStyle = withMyTheme((theme) => css`
     font-family: ${theme.typography.h1.fontFamily};
     margin-bottom: 1rem;
     align-self: center;
+    margin-top 0;
+    padding-top:0;
     ${mobileCss(`
         font-size: 1.3rem;
     `)}
@@ -163,32 +166,40 @@ const ButtonStyle = withMyTheme((theme) => css`
     width: 50%;
 `);
 
-const BookingButtonStyle = withMyTheme(() => css`
-    margin-top: 2rem;
-    background-color: #00B388 !important; // Booksy brand color
+const BookingButtonStyle = withMyTheme((theme) => css`
+    margin-top: 7vh;
+    background-color: #00A3AD !important; // Booksy brand color
+    background-color: ${theme.palette.primary.main} !important;
     padding: 12px 24px;
     display: flex;
+    font-size: 1.2vw;
     align-items: center;
     gap: 12px;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 
     &:hover {
-        background-color: #00A67C !important;
+        background-color: #00A3AD !important;
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 179, 136, 0.2);
+        box-shadow: 0 12px 12px rgba(0, 179, 136, 0.2);
     }
 
     ${mobileCss(`
         width: 90%;
+        font-size: 4vw;
         margin: 2rem auto;
     `)}
 `);
 
 const BookingIconStyle = css`
-    width: 24px;
-    height: 24px;
+    width: auto;
+    height: 26px;
+    padding: 10px 0;
+    margin: 0;
     object-fit: contain;
-    filter: brightness(0) invert(1); // Make the logo white
+    filter: brightness(0) invert(1); 
+    ${mobileCss(`
+        height: 2vh;
+    `)}
 `;
 
 export const Offers = () => {
@@ -215,7 +226,7 @@ export const Offers = () => {
                     );
 
                     if (isValid) {
-                        setOffers(data.concat(data));
+                        setOffers(data);
                     } else {
                         setError('Data format is incorrect.');
                         setOffers([]);
@@ -239,7 +250,7 @@ export const Offers = () => {
     }, []);
 
     const handleOfferClick = (offerId: number) => {
-        navigate(`/offer/${offerId}`);
+        navigate(`/oferta/${offerId}`);
     };
 
     if (loading) {
@@ -273,12 +284,42 @@ export const Offers = () => {
     return (
         <section css={OffersContainerStyle} id={OFFERS_ID}>
             <h2 css={OffersTitleStyle}>{t('offers.title')}</h2>
+            {isMobile() ? (
+                <OffersMobile offers={offers} />
+            ) : (
+                <div css={OffersGridStyle} className={`
+                    ${offers.length === 4 ? 'grid-4-items' : ''}
+                    ${offers.length % 3 === 2 ? 'has-last-two' : ''}
+                `}>
+                    {offers.map(offer => (
+                        <div
+                            key={offer.id}
+                            css={OfferTileStyle}
+                            onClick={() => handleOfferClick(offer.id)}
+                        >
+                            <img
+                                css={OfferImageStyle}
+                                src={offer.acf.obraz_oferty.url}
+                                alt={offer.acf.obraz_oferty.alt}
+                            />
+                            <div css={OfferContentStyle}>
+                                <h3 css={OfferTitleStyle}>{offer.acf.nazwa_oferty}</h3>
+                                <MyButton
+                                    text="CZYTAJ WIĘCEJ"
+                                    variant="contained"
+                                    additionalCss={ButtonStyle}
+                                />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
             <MyButton
-                text="UMÓW WIZYTĘ"
+                text="Zobacz oferty na"
                 onClick={handleBookingClick}
                 variant="contained"
                 additionalCss={BookingButtonStyle}
-                startIcon={
+                endIcon={
                     <img 
                         src={Image.BOOKSY_LOGO} 
                         alt="Booksy Logo" 
@@ -286,33 +327,6 @@ export const Offers = () => {
                     />
                 }
             />
-            <div css={OffersGridStyle} className={`
-                ${offers.length === 4 ? 'grid-4-items' : ''}
-                ${offers.length % 3 === 2 ? 'has-last-two' : ''}
-            `}>
-                {offers.map(offer => (
-                    <div
-                        key={offer.id}
-                        css={OfferTileStyle}
-                        onClick={() => handleOfferClick(offer.id)}
-                    >
-                        <img
-                            css={OfferImageStyle}
-                            src={offer.acf.obraz_oferty.url}
-                            alt={offer.acf.obraz_oferty.alt}
-                        />
-                        <div css={OfferContentStyle}>
-                            <h3 css={OfferTitleStyle}>{offer.acf.nazwa_oferty}</h3>
-                            <MyButton
-                                text="CZYTAJ WIĘCEJ"
-                                onClick={() => navigate(`/oferta/${offer.id}`)}
-                                variant="contained"
-                                additionalCss={ButtonStyle}
-                            />
-                        </div>
-                    </div>
-                ))}
-            </div>
         </section>
     );
 };
