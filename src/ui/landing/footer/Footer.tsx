@@ -1,12 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import { withMyTheme } from '../../theme/theme';
 import { mobileCss } from '../../theme/isMobile';
 import { SocialMediaSection } from './SocialMediaSection';
 import { ContactSection } from './ContactSection';
+import { Image } from '../../Images';
 
 const FooterContainerStyle = withMyTheme((theme) => css`
-    background-color: ${theme.palette.primary.main};
+    background-color: ${theme.palette.primary.dark};
     padding: 3vh 10vw;
     display: flex;
     justify-content: space-between;
@@ -25,9 +26,10 @@ const FooterContainerStyle = withMyTheme((theme) => css`
 
 
 export const Footer = () => {
+    const theme = useTheme();
     return (
         <footer css={FooterContainerStyle}>
-            <SocialMediaSection />
+            <SocialMediaSection booksyIcon={Image.BOOKSY_SHORT_LOGO_BROWN} brownIcons={true}/>
             <ContactSection />
         </footer>
     );

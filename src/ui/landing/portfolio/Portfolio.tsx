@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { withMyTheme } from '../../theme/theme';
+import { DESKTOP_CONTENT_PADDING, DESKTOP_TITLE_FONT_SIZE, MOBILE_CONTENT_PADDING, MOBILE_TITLE_FONT_SIZE, withMyTheme } from '../../theme/theme';
 import { isMobile, mobileCss } from '../../theme/isMobile';
 import { PortfolioDesktop } from './PortfolioDesktop';
 import { PortfolioMobile } from './PortfolioMobile';
@@ -12,18 +12,26 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 export const PORTFOLIO_ID = 'portfolio';
 
 const PortfolioContainerStyle = withMyTheme((theme) => css`
-    width: 100vw;
-    padding: 12vh 0;
+    ${DESKTOP_CONTENT_PADDING}
     background-color: ${theme.palette.background.paper};
+    ${mobileCss(`
+        ${MOBILE_CONTENT_PADDING}
+        padding-left: 0;
+        padding-right: 0;
+    `)}
 `);
 
 const PortfolioTitleStyle = withMyTheme((theme) => css`
     text-align: center;
     margin-bottom: 50px;
     color: ${theme.palette.primary.main};
-    font-size: 2.5rem;
+    font-size: ${DESKTOP_TITLE_FONT_SIZE};
     font-weight: 600;
     font-family: ${theme.typography.h1.fontFamily};
+
+    ${mobileCss(`
+        font-size: ${MOBILE_TITLE_FONT_SIZE};
+    `)}
 `);
 
 const InstagramButtonStyle = withMyTheme((theme) => css`

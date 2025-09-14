@@ -13,6 +13,10 @@ const TileStyle = withMyTheme((theme) => css`
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     
     &:hover {
         transform: translateY(-4px);
@@ -40,6 +44,7 @@ const TileTitleStyle = withMyTheme((theme) => css`
     font-family: ${theme.typography.h1.fontFamily};
     font-size: 1.5vw;
     margin: 0 0 2vh 0;
+    
     ${mobileCss(`
         font-size: 4.5vw;
         margin: 0 0 3vh 0;
@@ -50,6 +55,7 @@ interface ReviewTileProps {
     logoSrc: string;
     logoAlt: string;
     title: string;
+    imagePadding?: string;
     description: string;
     buttonText: string;
     url: string;
@@ -58,7 +64,7 @@ interface ReviewTileProps {
 export const ReviewTile = ({
     logoSrc,
     logoAlt,
-    title,
+    imagePadding,
     buttonText,
     url
 }: ReviewTileProps) => {
@@ -72,10 +78,8 @@ export const ReviewTile = ({
                 src={logoSrc}
                 alt={logoAlt}
                 css={LogoStyle}
+                style={imagePadding ? { paddingBottom: imagePadding } : undefined}
             />
-            <div css={TileTitleStyle}>
-                {title}
-            </div>
             <MyButton
                 text={buttonText}
                 variant="outlined"

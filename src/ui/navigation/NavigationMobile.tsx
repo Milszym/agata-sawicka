@@ -49,7 +49,7 @@ const OverlayStyle = withMyTheme((theme) => css`
 const MenuContainerStyle = withMyTheme((theme) => css`
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 2vh;
     text-align: center;
     animation: ${slideIn} 0.3s ease-out;
 `);
@@ -57,6 +57,7 @@ const MenuContainerStyle = withMyTheme((theme) => css`
 const MenuItemStyle = withMyTheme((theme) => css`
     color: ${theme.palette.common.white};
     text-decoration: none;
+    font-family: ${theme.typography.body1.fontFamily};
     font-size: 24px;
     font-weight: 400;
     cursor: pointer;
@@ -66,6 +67,10 @@ const MenuItemStyle = withMyTheme((theme) => css`
     &:hover {
         opacity: 0.8;
     }
+`);
+
+const SocialMediaIconsStyle = withMyTheme(() => css`
+    margin-top: 3vh;
 `);
 
 export const NavigationMobile = () => {
@@ -107,7 +112,9 @@ export const NavigationMobile = () => {
                         <span css={MenuItemStyle} onClick={() => scrollToSection(CONTACT_ID)}>
                             Kontakt
                         </span>
-                        <SocialMediaIcons negative={true}/>
+                        <div css={SocialMediaIconsStyle}>
+                            <SocialMediaIcons negative={true}/>
+                        </div>
                     </nav>
                 </div>
             )}

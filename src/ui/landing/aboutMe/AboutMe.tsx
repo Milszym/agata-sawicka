@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import { useTranslation } from 'react-i18next';
 import { Image } from '../../Images';
-import { withMyTheme, SMALL_ROUNDED_CORNER } from '../../theme/theme';
+import { withMyTheme, SMALL_ROUNDED_CORNER, DESKTOP_TITLE_FONT_SIZE, MOBILE_TITLE_FONT_SIZE, DESKTOP_CONTENT_PADDING, MOBILE_CONTENT_PADDING } from '../../theme/theme';
 import { mobileCss } from '../../theme/isMobile';
 import { MyButton } from '../../components/button/MyButton';
 import { useNavigate } from 'react-router-dom';
@@ -24,17 +24,17 @@ const fadeInAnimation = css`
 `;
 
 const AboutMeContainerStyle = withMyTheme((theme) => css`
-    padding: 15vh 5vw;
     background-color: ${theme.palette.background.default};
     display: flex;
     align-items: center;
     justify-content: center;
+    ${DESKTOP_CONTENT_PADDING}
     gap: 5vw;
     margin: 0 auto;
     
     ${mobileCss(`
         flex-direction: column;
-        padding: 40px 20px;
+        ${MOBILE_CONTENT_PADDING}
         gap: 30px;
     `)}
 `);
@@ -56,7 +56,7 @@ const ContentContainerStyle = (isVisible: boolean) => css`
     ${mobileCss(`
         max-width: 100%;
         text-align: center;
-        gap: 20px;
+        gap: 0;
     `)}
 `;
 
@@ -72,15 +72,14 @@ const ButtonStyle = withMyTheme((theme) => css`
 `);
 
 const AboutMeTitleStyle = withMyTheme((theme) => css`
-    font-size: 2.5rem;
     font-weight: 600;
     color: ${theme.palette.text.primary};
     font-family: ${theme.typography.h1.fontFamily};
     margin: 0;
+    font-size: ${DESKTOP_TITLE_FONT_SIZE};
 
     ${mobileCss(`
-        margin-top: 5vh;
-        font-size: 7vw;
+        font-size: ${MOBILE_TITLE_FONT_SIZE};
     `)}
 `);
 
@@ -196,10 +195,10 @@ export const AboutMe = () => {
             </div>
             
             <div css={ImageContainerStyle(isVisible)}>
-                <div css={ImageBackgroundStyle} />
+                {/* <div css={ImageBackgroundStyle} /> */}
                 <img 
                     src={Image.ABOUT_ME} 
-                    alt="About Me" 
+                    alt="O mnie" 
                     css={AboutMeImageStyle}
                 />
             </div>

@@ -25,7 +25,7 @@ const SocialMediaTitleStyle = withMyTheme((theme) => css`
     font-family: ${theme.typography.h1.fontFamily};
 `);
 
-export const SocialMediaSection = () => {
+export const SocialMediaSection = ({ booksyIcon, brownIcons }: { booksyIcon?: string, brownIcons?: boolean }) => {
     const { t } = useTranslation();
 
     return (
@@ -33,7 +33,7 @@ export const SocialMediaSection = () => {
             <h3 css={SocialMediaTitleStyle}>
                 {t('footer.followUs')}
             </h3>
-            <SocialMediaIcons />
+            <SocialMediaIcons booksyIcon={booksyIcon} brownIcons={brownIcons} />
         </div>
     );
 };

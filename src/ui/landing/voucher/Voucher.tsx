@@ -1,14 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useTranslation } from 'react-i18next';
-import { withMyTheme, SMALL_ROUNDED_CORNER } from '../../theme/theme';
+import { withMyTheme, SMALL_ROUNDED_CORNER, MOBILE_TITLE_FONT_SIZE, DESKTOP_TITLE_FONT_SIZE, MOBILE_CONTENT_PADDING, DESKTOP_CONTENT_PADDING } from '../../theme/theme';
 import { mobileCss } from '../../theme/isMobile';
 import { Image } from '../../Images';
 
 export const VOUCHER_ID = 'voucher';
 
 const VoucherContainerStyle = withMyTheme((theme) => css`
-    padding: 7vh 5vw 12vh 5vw;
+    ${DESKTOP_CONTENT_PADDING}
     background-color: ${theme.palette.background.default};
     display: flex;
     flex-direction: column;
@@ -16,12 +16,12 @@ const VoucherContainerStyle = withMyTheme((theme) => css`
     justify-content: center;
     
     ${mobileCss(`
-        padding: 8vh 5vw;
+        ${MOBILE_CONTENT_PADDING}
     `)}
 `);
 
 const VoucherTitleStyle = withMyTheme((theme) => css`
-    font-size: 2.5rem;
+    font-size: ${DESKTOP_TITLE_FONT_SIZE};
     font-weight: 600;
     color: ${theme.palette.text.primary};
     font-family: ${theme.typography.h1.fontFamily};
@@ -30,8 +30,7 @@ const VoucherTitleStyle = withMyTheme((theme) => css`
     margin-bottom: 0;
 
     ${mobileCss(`
-        font-size: 2rem;
-        margin-bottom: 3vh;
+        font-size: ${MOBILE_TITLE_FONT_SIZE};
     `)}
 `);
 

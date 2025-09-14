@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { useTranslation } from 'react-i18next';
 import { ReviewTile } from '../../components/ReviewTile';
 import { Image } from '../../Images';
-import { withMyTheme } from '../../theme/theme';
+import { DESKTOP_TITLE_FONT_SIZE, MOBILE_CONTENT_PADDING, MOBILE_TITLE_FONT_SIZE, withMyTheme } from '../../theme/theme';
 import { mobileCss } from '../../theme/isMobile';
 
 export const REVIEWS_ID = 'reviews';
@@ -14,6 +14,9 @@ const BOOKSY_URL = 'https://booksy.com/pl-pl/214831_agata-sawicka-makeup-artist_
 const ReviewsContainerStyle = withMyTheme((theme) => css`
     background-color: ${theme.palette.background.default};
     padding: 4vh 0;
+    ${mobileCss(`
+        ${MOBILE_CONTENT_PADDING}
+    `)}
 `);
 
 const ReviewsTitleStyle = withMyTheme((theme) => css`
@@ -21,19 +24,19 @@ const ReviewsTitleStyle = withMyTheme((theme) => css`
     margin-bottom: 1vh;
     color: ${theme.palette.text.primary};
     font-family: ${theme.typography.h1.fontFamily};
-    font-size: 2vw;
+    font-size: ${DESKTOP_TITLE_FONT_SIZE};
     font-weight: 600;
     margin-top: 0;
     
     ${mobileCss(`
-        font-size: 7vw;
+        font-size: ${MOBILE_TITLE_FONT_SIZE};
     `)}
 `);
 
 const ReviewsDescriptionStyle = withMyTheme((theme) => css`
     text-align: center;
     max-width: 50vw;
-    margin-bottom: 5vh;
+    margin-bottom: 4vh;
     color: ${theme.palette.text.primary};
     font-family: ${theme.typography.body1.fontFamily};
     font-size: 1.5vw;
@@ -43,6 +46,7 @@ const ReviewsDescriptionStyle = withMyTheme((theme) => css`
     ${mobileCss(`
         font-size: 4vw;
         max-width: 90vw;
+        margin-bottom: 2vh;
     `)}
 `);
 
@@ -76,7 +80,8 @@ export const Reviews = () => {
             <div css={TilesContainerStyle}>
                 <ReviewTile
                     logoSrc={Image.GOOGLE_LOGO}
-                    logoAlt="Google Reviews"
+                    imagePadding={'2vh'}
+                    logoAlt="Opinie Google Maps"
                     title={t('reviews.google.title')}
                     description={t('reviews.google.description')}
                     buttonText={t('reviews.google.button')}
@@ -85,7 +90,7 @@ export const Reviews = () => {
 
                 <ReviewTile
                     logoSrc={Image.BOOKSY_LOGO}
-                    logoAlt="Booksy Reviews"
+                    logoAlt="Opinie Booksy"
                     title={t('reviews.booksy.title')}
                     description={t('reviews.booksy.description')}
                     buttonText={t('reviews.booksy.button')}

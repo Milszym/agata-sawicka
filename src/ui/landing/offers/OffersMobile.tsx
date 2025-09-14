@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { withMyTheme } from "../../theme/theme";
 import { MyButton } from '../../components/button/MyButton';
 import { OfferDto } from './Offers';
+import { mobileCss } from '../../theme/isMobile';
 
 const MobileContainerStyle = withMyTheme(() => css`
     position: relative;

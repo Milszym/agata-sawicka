@@ -6,6 +6,7 @@ import { Instagram, Facebook, Google } from '@mui/icons-material';
 import { Image } from '../../Images';
 
 export const GOOGLE_MAPS_LINK = 'https://maps.app.goo.gl/pnrCpbJJaBfekdLr8'
+export const INSTAGRAM_LINK = 'https://www.instagram.com/agatasawickamakeup'
 
 const SocialMediaIconsStyle = withMyTheme(() => css`
     display: flex;
@@ -17,18 +18,18 @@ const SocialMediaIconsStyle = withMyTheme(() => css`
     `)}
 `);
 
-const SocialIconStyle = (negative: boolean) => withMyTheme((theme) => css`
+const SocialIconStyle = (negative: boolean, brownIcons?: boolean) => withMyTheme((theme) => css`
     width: 40px;
     height: 40px;
     background-color: ${negative ? theme.palette.primary.main : theme.palette.primary.contrastText};
-    border-radius: 50%;
+    border-radius: 25%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: transform 0.2s ease, opacity 0.2s ease;
     text-decoration: none;
-    color: ${negative ? theme.palette.primary.contrastText : theme.palette.primary.main};
+    color: ${negative ? theme.palette.primary.contrastText : brownIcons ? theme.palette.primary.dark : theme.palette.primary.main};
     
     & svg {
         font-size: 20px;
@@ -40,41 +41,45 @@ const SocialIconStyle = (negative: boolean) => withMyTheme((theme) => css`
     }
 `);
 
-const BooksyIconStyle = withMyTheme((theme) => css`
+const BooksyIconStyle = withMyTheme(() => css`
     width: 24px;
     height: auto;
     border-radius: 0%;
 `);
 
-export const SocialMediaIcons = ({ negative = false }: { negative?: boolean }) => {
+export const SocialMediaIcons = ({ negative = false, booksyIcon, brownIcons }: { negative?: boolean, booksyIcon?: string, brownIcons?: boolean }) => {
     const handleSocialClick = (url: string) => {
         window.open(url, '_blank', 'noopener,noreferrer');
     };
+
+    const iconStyle = SocialIconStyle(negative, brownIcons);
+    
+    const booksyIconSrc = booksyIcon ? booksyIcon : negative ? Image.BOOKSY_SHORT_LOGO_WHITE : Image.BOOKSY_SHORT_LOGO
     return (
         <div css={SocialMediaIconsStyle}>
         <a
-            css={SocialIconStyle(negative)}
-            onClick={() => handleSocialClick('https://www.instagram.com/agatasawickamakeup/')}
+            css={iconStyle}
+            onClick={() => handleSocialClick(INSTAGRAM_LINK)}
             title="Instagram"
         >
             <Instagram />
         </a>
         <a
-            css={SocialIconStyle(negative)}
+            css={iconStyle}
             onClick={() => handleSocialClick('https://booksy.com/pl-pl/214831_agata-sawicka-makeup-artist_makijaz_21029_gdynia')}
             title="Booksy"
         >
-            <img src={negative ? Image.BOOKSY_SHORT_LOGO_WHITE : Image.BOOKSY_SHORT_LOGO} alt="Booksy" css={[SocialIconStyle(negative), BooksyIconStyle]} />
+            <img src={booksyIconSrc} alt="Booksy" css={[iconStyle, BooksyIconStyle]} />
         </a>
         <a
-            css={SocialIconStyle(negative)}
+            css={iconStyle}
             onClick={() => handleSocialClick(GOOGLE_MAPS_LINK)}
             title="Google"
         >
             <Google />
         </a>
         <a
-            css={SocialIconStyle(negative)}
+            css={iconStyle}
             onClick={() => handleSocialClick('https://www.facebook.com/agata.sawicka.makeup')}
             title="Facebook"
         >

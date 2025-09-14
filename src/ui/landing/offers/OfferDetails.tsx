@@ -9,6 +9,7 @@ import { mobileCss } from "../../theme/isMobile";
 import { MyButton } from "../../components/button/MyButton";
 import { ArrowBack } from "@mui/icons-material";
 import { Config } from '../../Config';
+import { OfferHelmet } from '../../../helmet/OfferHelmet';
 
 interface OfferImage {
     url: string;
@@ -237,7 +238,13 @@ export const OfferDetails = () => {
     }
 
     return (
-        <section css={OfferDetailsContainerStyle}>
+        <>
+            <OfferHelmet 
+                offerName={offer.acf.nazwa_oferty}
+                offerDescription={offer.acf.opis_oferty}
+                offerImage={offer.acf.obraz_oferty.url}
+            />
+            <section css={OfferDetailsContainerStyle}>
             <MyButton
                 text="Powrót"
                 variant="contained"
@@ -258,5 +265,6 @@ export const OfferDetails = () => {
                 </div>
             </div>
         </section>
+        </>
     );
 }; 

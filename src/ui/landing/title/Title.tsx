@@ -45,8 +45,13 @@ const getLogoStyle = (scrollProgress: number) => withMyTheme(() => {
             left: 15px;
         `)}
 
+        &:nth-of-type(3) {
+            opacity: ${scrollProgress < 0.8 ? 1 : 0};
+        }
+
         &:nth-of-type(2) {
-            opacity: ${scrollProgress > 0.8 ? 1 : 0};
+            z-index: 11;
+            opacity: ${scrollProgress > 0.8 && scrollProgress < 1.2 ? 1 : 0};
         }
     `;
 });
@@ -129,7 +134,7 @@ export const Title = () => {
 
             // Calculate scroll progress (0 to 1)
             // Full effect achieved when scrolling 1 viewport height
-            const progress = Math.min(scrollPosition / viewportHeight, 1);
+            const progress = Math.min(scrollPosition / viewportHeight, 1.5);
             setScrollProgress(progress);
         };
         handleScroll()
@@ -147,17 +152,17 @@ export const Title = () => {
     return <Fullscreen additionalCss={() => css`position: relative;`}>
         <img
             src={isMobile() ? Image.HEROBANNER_MOBILE : Image.HEROBANNER}
-            alt="HeroBanner Background"
+            alt="Herobanner"
             css={BackgroundStyle}
         />
         <img
             src={Image.LOGO_BLACK}
-            alt="Agata Sawicka Logo Black"
+            alt="Agata Sawicka Logo"
             css={getLogoStyle(scrollProgress)}
         />
         <img
             src={Image.LOGO_WHITE}
-            alt="Agata Sawicka Logo White"
+            alt="Agata Sawicka Logo"
             css={getLogoStyle(scrollProgress)}
         />
         <div css={NavigationStyle(scrollProgress < 0.9)}>

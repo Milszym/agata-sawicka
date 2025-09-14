@@ -143,7 +143,7 @@ export const AboutMePage = () => {
                 <div css={ImageBackgroundStyle} />
                 <img 
                     src={Image.ABOUT_ME} 
-                    alt="About Me" 
+                    alt="O mnie" 
                     css={AboutMeImageStyle}
                 />
             </div>

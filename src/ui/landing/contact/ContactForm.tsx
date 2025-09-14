@@ -11,7 +11,7 @@ import { PrivacyPolicyDialog } from '../../components/PrivacyPolicyDialog';
 
 const FormContainerStyle = withMyTheme((theme) => css`
     flex: 2;
-    background-color: ${theme.palette.primary.light};
+    background-color: ${theme.palette.primary.main};
     padding: 5vh 5vw;
     margin: 7vh 3vw 7vh 7vw;
     border-radius: 12px;
@@ -22,7 +22,7 @@ const FormContainerStyle = withMyTheme((theme) => css`
     ${mobileCss(`
         max-width: 95vw;
         width: 75vw;
-        margin: 5vh 0;
+        margin: 2vh 0 .5vh 0;
     `)}
 `);
 
@@ -54,17 +54,20 @@ const FormFieldsStyle = withMyTheme(() => css`
     display: flex;
     flex-direction: column;
     gap: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 2vh;
 `);
 
 const PrivacyPolicyStyle = withMyTheme((theme) => css`
-    margin: 20px 0;
+    margin: 0 0 1vh 0;
     
     .MuiFormControlLabel-label {
         font-family: ${theme.typography.body1.fontFamily};
-        font-size: 0.9rem;
+        font-size: 1.2vw;
         color: ${theme.palette.secondary.contrastText};
         line-height: 1.4;
+        ${mobileCss(`
+            font-size: 3vw;    
+        `)}
     }
     
     .MuiCheckbox-root {
@@ -272,7 +275,7 @@ export const ContactForm = () => {
                 }
                 label={
                     <span>
-                        Zgadzam się na przetwarzanie moich danych osobowych (adres e-mail i opcjonalnie imię) w celu udzielenia odpowiedzi na moją wiadomość. Administratorem danych jest Agata Sawicka. Pełne informacje o przetwarzaniu danych i Twoich prawach znajdziesz w naszej{' '}
+                        Zgadzam się na przetwarzanie moich danych osobowych (adres e-mail i opcjonalnie imię) w celu udzielenia odpowiedzi na moją wiadomość. Pełne informacje znajdziesz w naszej{' '}
                         <span
                             css={PrivacyPolicyLinkStyle}
                             onClick={(e) => {
