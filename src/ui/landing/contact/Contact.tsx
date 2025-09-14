@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
+import { useInView } from 'react-intersection-observer';
 import { Image } from '../../Images';
 import { DESKTOP_CONTENT_PADDING, MOBILE_CONTENT_PADDING, withMyTheme } from '../../theme/theme';
 import { isMobile, mobileCss } from '../../theme/isMobile';
@@ -29,13 +30,42 @@ const ContactContainerStyle = withMyTheme(() => css`
     `)}
 `);
 
-const InstagramContactStyle = withMyTheme((theme) => css`
+// Animation keyframes
+const slideInRight = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const slideInLeft = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const InstagramContactStyle = withMyTheme((theme, isVisible = false) => css`
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 40px;
+    
+    /* Animation styles */
+    opacity: ${isVisible ? 1 : 0};
+    transform: translateX(${isVisible ? 0 : '50px'});
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
     
     ${mobileCss(`
         padding: 40px 40px 0 40px;
@@ -76,14 +106,20 @@ const InstagramButtonStyle = withMyTheme(() => css`
 `);
 
 export const Contact = () => {
+    // Using react-intersection-observer hook for animations
+    const { ref: sectionRef, inView } = useInView({
+        threshold: 0.15,
+        triggerOnce: true, // Only trigger once
+        delay: 200 // Small delay to ensure smooth animation
+    });
     const handleInstagramClick = () => {
         window.open(INSTAGRAM_LINK, '_blank', 'noopener,noreferrer');
     };
 
     return (
-        <div css={ContactContainerStyle} id={CONTACT_ID}>
-            <ContactForm />
-            <div css={InstagramContactStyle}>
+        <div css={ContactContainerStyle} id={CONTACT_ID} ref={sectionRef}>
+            <ContactForm isVisible={inView} />
+            <div css={(theme) => InstagramContactStyle(theme, inView)}>
                 <div css={InstagramCardStyle}>
                     <div css={InstagramTextStyle}>
                         Zachęcam do kontaktu<br />

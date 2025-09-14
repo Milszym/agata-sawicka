@@ -3,13 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import { withMyTheme } from "../../theme/theme";
+import { withMyTheme, SMALL_ROUNDED_CORNER } from "../../theme/theme";
 import { css } from "@emotion/react";
 import { mobileCss } from "../../theme/isMobile";
 import { MyButton } from "../../components/button/MyButton";
 import { ArrowBack } from "@mui/icons-material";
 import { Config } from '../../Config';
 import { OfferHelmet } from '../../../helmet/OfferHelmet';
+import initialOffers from './initial_offers.json';
 
 interface OfferImage {
     url: string;
@@ -30,77 +31,125 @@ interface OfferDto {
 const url = `${Config.apiUrl}/wp-json/wp/v2/makeupoffers`
 
 const OfferDetailsContainerStyle = withMyTheme((theme) => css`
+    min-height: 100vh;
+    height: 100vh;
+    background-color: ${theme.palette.background.default};
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-image: url('/images/peach_background_30.png');
-    min-height: 100vh;
-    padding: 2rem;
-    color: ${theme.palette.text.primary};
-    ${mobileCss(`
-        padding: 1rem;
-    `)}
-`)
-
-const OfferCardStyle = withMyTheme((theme) => css`
-    display: flex;
-    flex-direction: column;
-    background: ${theme.palette.background.paper};
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    gap: 5vw;
+    padding: 0 7vw;
     overflow: hidden;
-    max-width: 800px;
-    width: 100%;
+    
     ${mobileCss(`
-        max-width: 100%;
+        flex-direction: column;
+        padding: 100px 20px 40px;
+        gap: 30px;
+        height: auto;
+        overflow: visible;
     `)}
 `)
 
-const OfferImageStyle = withMyTheme(() => css`
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-    ${mobileCss(`
-        height: 250px;
-    `)}
-`)
-
-const OfferContentStyle = withMyTheme(() => css`
-    padding: 3rem;
+const ContentContainerStyle = css`
+    flex: 5;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    margin-top: 5vh;
+    height: 85vh;
+    
     ${mobileCss(`
-        padding: 2rem 1.5rem;
-        gap: 1.5rem;
+        margin-top: 2vh;
+        max-width: 100vw;
+        text-align: center;
+        height: auto;
     `)}
-`)
+`;
 
 const OfferTitleStyle = withMyTheme((theme) => css`
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 700;
-    color: ${theme.palette.primary.main};
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: ${theme.palette.text.primary};
+    margin-bottom: 30px;
     font-family: ${theme.typography.h1.fontFamily};
-    text-align: center;
-    margin: 0;
+    
     ${mobileCss(`
-        font-size: clamp(1.5rem, 6vw, 2.5rem);
+        font-size: 2rem;
+        margin-bottom: 20px;
     `)}
 `)
 
-const OfferDescriptionStyle = withMyTheme((theme) => css`
-    font-size: 1.2rem;
-    color: ${theme.palette.text.primary};
+const DescriptionContainerStyle = withMyTheme((theme) => css`
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 16px;
     font-family: ${theme.typography.body1.fontFamily};
-    line-height: 1.8;
-    text-align: center;
-    margin: 0;
+    
     ${mobileCss(`
-        font-size: 1.1rem;
+        overflow-y: visible;
+        padding-right: 0;
+        max-height: none;
+    `)}
+`);
+
+const OfferDescriptionStyle = withMyTheme((theme) => css`
+    color: ${theme.palette.text.primary};
+    font-size: 1.1rem;
+    line-height: 1.8;
+    white-space: pre-line;
+    font-family: ${theme.typography.body1.fontFamily};
+    
+    & p, & ul, & ol {
+        margin-bottom: 1rem;
+    }
+    
+    & ul, & ol {
+        padding-left: 1.5rem;
+    }
+    
+    & a {
+        color: ${theme.palette.primary.main};
+        text-decoration: none;
+        
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    
+    ${mobileCss(`
+        font-size: 1rem;
         line-height: 1.6;
     `)}
 `)
+
+const ImageContainerStyle = css`
+    position: relative;
+    flex: 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 40vw;
+    max-height 70vh;
+    
+    ${mobileCss(`
+        max-width: 90vw
+    `)}
+`;
+
+const OfferImageStyle = css`
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    border-radius: ${SMALL_ROUNDED_CORNER};
+    object-fit: cover;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 2;
+    
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+`;
 
 const BackButtonStyle = withMyTheme((theme) => css`
     position: fixed;
@@ -156,13 +205,33 @@ export const OfferDetails = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
+    const setGeneralError = () => {
+        setError("Nie udało się załadować oferty 😔. Spójrz na oferty na Booksy lub skontaktuj się ze mną.")
+    }
+
     useEffect(() => {
+        // Scroll to top when component mounts
+        window.scrollTo(0, 0);
+        
         const fetchOffer = async () => {
             if (!id) {
-                setError('No offer ID provided');
+                setGeneralError()
+                console.error(`No offer ID provided`)
                 setLoading(false);
                 return;
             }
+
+            // Try to find the offer in the initialOffers first
+            const findFallbackOffer = () => {
+                const numericId = parseInt(id, 10);
+                const fallbackOffer = initialOffers.find(offer => offer.id === numericId);
+                if (fallbackOffer) {
+                    console.log(`Found offer with ID ${id} in fallback data.`);
+                    setOffer(fallbackOffer as OfferDto);
+                    return true;
+                }
+                return false;
+            };
 
             try {
                 const response = await axios.get<OfferDto>(`${url}/${id}`);
@@ -171,17 +240,17 @@ export const OfferDetails = () => {
                 if (data && data.id && data.acf) {
                     setOffer(data);
                 } else {
-                    setError('Offer not found');
+                    console.error('Invalid data format from API. Trying fallback data.');
+                    if (!findFallbackOffer()) {
+                        setGeneralError();
+                    }
                 }
             } catch (err) {
-                if (axios.isAxiosError(err)) {
-                    if (err.response?.status === 404) {
-                        setError('Offer not found');
-                    } else {
-                        setError(err.message);
-                    }
-                } else {
-                    setError('An unknown error occurred');
+                console.error(`API error: ${err instanceof Error ? err.message : 'Unknown error'}. Trying fallback data.`);
+                
+                // Try to get the offer from initialOffers
+                if (!findFallbackOffer()) {
+                    setGeneralError();
                 }
             } finally {
                 setLoading(false);
@@ -197,44 +266,52 @@ export const OfferDetails = () => {
 
     if (loading) {
         return (
-            <section css={OfferDetailsContainerStyle}>
+            <div css={OfferDetailsContainerStyle}>
                 <div css={LoadingStyle}>Loading offer details...</div>
-            </section>
+            </div>
         );
     }
 
     if (error) {
         return (
-            <section css={OfferDetailsContainerStyle}>
+            <div css={OfferDetailsContainerStyle}>
                 <div css={ErrorStyle}>
-                    <div>Error: {error}</div>
+                    <div>{error}</div>
                     <MyButton
-                        text="Go Back"
+                        text="Powrót"
                         variant="contained"
                         colorVariant="primary"
                         startIcon={<ArrowBack />}
                         onClick={handleBackClick}
                     />
                 </div>
-            </section>
+            </div>
         );
     }
 
     if (!offer) {
         return (
-            <section css={OfferDetailsContainerStyle}>
+            <div css={OfferDetailsContainerStyle}>
                 <div css={NotFoundStyle}>
-                    <div>Offer not found</div>
+                    <div>Nie udało się załadować informacji o ofercie</div>
                     <MyButton
-                        text="Go Back"
+                        text="Powrót"
                         variant="contained"
                         colorVariant="primary"
                         startIcon={<ArrowBack />}
                         onClick={handleBackClick}
                     />
                 </div>
-            </section>
+            </div>
         );
+    }
+
+    const getImageUrl = (url: string) => {
+        if(url.startsWith('http')) {
+            return url;
+        } else {
+            return `../${url}`;
+        }
     }
 
     return (
@@ -244,27 +321,35 @@ export const OfferDetails = () => {
                 offerDescription={offer.acf.opis_oferty}
                 offerImage={offer.acf.obraz_oferty.url}
             />
-            <section css={OfferDetailsContainerStyle}>
-            <MyButton
-                text="Powrót"
-                variant="contained"
-                colorVariant="primary"
-                startIcon={<ArrowBack />}
-                onClick={handleBackClick}
-                additionalCss={BackButtonStyle}
-            />
-            <div css={OfferCardStyle}>
-                <img 
-                    css={OfferImageStyle}
-                    src={offer.acf.obraz_oferty.url} 
-                    alt={offer.acf.obraz_oferty.alt} 
+            <div css={OfferDetailsContainerStyle}>
+                <MyButton
+                    text="Powrót"
+                    variant="contained"
+                    colorVariant="primary"
+                    startIcon={<ArrowBack />}
+                    onClick={handleBackClick}
+                    additionalCss={BackButtonStyle}
                 />
-                <div css={OfferContentStyle}>
-                    <h1 css={OfferTitleStyle}>{offer.acf.nazwa_oferty}</h1>
-                    <p css={OfferDescriptionStyle}>{offer.acf.opis_oferty}</p>
+                <div css={ContentContainerStyle}>
+                    <h2 css={OfferTitleStyle}>
+                        {offer.acf.nazwa_oferty}
+                    </h2>
+                    <div css={DescriptionContainerStyle}>
+                        <div 
+                            css={OfferDescriptionStyle} 
+                            dangerouslySetInnerHTML={{ __html: offer.acf.opis_oferty }}
+                        />
+                    </div>
+                </div>
+                
+                <div css={ImageContainerStyle}>
+                    <img 
+                        src={getImageUrl(offer.acf.obraz_oferty.url)} 
+                        alt={offer.acf.obraz_oferty.alt} 
+                        css={OfferImageStyle}
+                    />
                 </div>
             </div>
-        </section>
         </>
     );
 }; 

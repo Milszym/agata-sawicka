@@ -3,6 +3,7 @@ import { css, keyframes } from '@emotion/react';
 import { useState } from 'react';
 import { withMyTheme } from "../theme/theme";
 import { Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 import { ABOUT_ME_ID } from "../landing/aboutMe/AboutMe";
 import { OFFERS_ID } from "../landing/offers/Offers";
 import { PORTFOLIO_ID } from "../landing/portfolio/Portfolio";
@@ -13,13 +14,14 @@ import { SocialMediaIcons } from '../landing/footer/SocialMediaIcons';
 const MenuButtonStyle = withMyTheme((theme) => css`
     position: fixed;
     top: 20px;
-    right: 20px;
+    right: 10vw;
     z-index: 1000;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
     color: ${theme.palette.common.white};
+    
+    /* Style the ripple effect using theme colors */
+    .MuiTouchRipple-child {
+        background-color: ${theme.palette.primary.main};
+    }
 `);
 
 const fadeIn = keyframes`
@@ -86,13 +88,16 @@ export const NavigationMobile = () => {
 
     return (
         <>
-            <button 
+            <IconButton 
                 css={MenuButtonStyle}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                disableRipple={false}
+                centerRipple={true}
+                touchRippleRef={undefined}
             >
                 {isMenuOpen ? <CloseIcon fontSize="large" /> : <MenuIcon fontSize="large" />}
-            </button>
+            </IconButton>
 
             {isMenuOpen && (
                 <div css={OverlayStyle}>

@@ -8,6 +8,7 @@ import { mobileCss, isMobile } from "../../theme/isMobile";
 import { MyButton } from '../../components/button/MyButton';
 import { Image } from '../../Images';
 import { OffersContent } from './OffersContent';
+import initialOffers from './initial_offers.json';
 
 export const OFFERS_ID = 'offers';
 
@@ -20,6 +21,8 @@ interface AcfFields {
     nazwa_oferty: string;
     opis_oferty: string;
     obraz_oferty: OfferImage;
+    obraz_oferty_desktop: OfferImage;
+    kolejnosc_wyswietlania?: string;
 }
 
 export interface OfferDto {
@@ -133,27 +136,30 @@ export const Offers = () => {
                         if(data.length > 0) {
                             setOffers(data);
                         } else {
-                            console.error('No offers available.');
-                            setGeneralError()
+                            console.error('No offers available from API. Using fallback data.');
+                            setOffers(initialOffers as OfferDto[]);
                         }
-                        setOffers(data);
                     } else {
-                        setGeneralError()
-                        console.error('The format is incorrect.');
-                        setOffers([]);
+                        console.error('The API data format is incorrect. Using fallback data.');
+                        setOffers(initialOffers as OfferDto[]);
                     }
                 } else {
-                    setOffers([]);
+                    console.error('Empty data from API. Using fallback data.');
+                    setOffers(initialOffers as OfferDto[]);
                 }
             } catch (err) {
                 if (axios.isAxiosError(err)) {
-                    console.error(err.message);
-                    setGeneralError()
+                    console.error(`API error: ${err.message}. Using fallback data.`);
                 } else {
-                    console.error('An unknown error occurred.');
-                    setGeneralError()
+                    console.error('An unknown error occurred. Using fallback data.');
                 }
-                setOffers([]);
+                // Use initial offers as fallback
+                setOffers(initialOffers as OfferDto[]);
+                
+                // Only show error if fallback data is also empty
+                if (initialOffers.length === 0) {
+                    setGeneralError();
+                }
             } finally {
                 setLoading(false);
             }

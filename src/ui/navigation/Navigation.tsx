@@ -9,6 +9,8 @@ import { REVIEWS_ID } from "../landing/reviews/Reviews";
 import { CONTACT_ID } from "../landing/contact/Contact";
 import { NavigationMobile } from "./NavigationMobile";
 import { SocialMediaIcons } from "../landing/footer/SocialMediaIcons";
+import { isMobile } from "../theme/isMobile";
+import { isTablet } from "../theme/isTablet";
 
 const NavStyle = withMyTheme(() => css`
     position: fixed;
@@ -72,11 +74,11 @@ const NavLinkStyle = withMyTheme((theme) => css`
 `);
 
 export const Navigation = () => {
-    const [isMobile, setIsMobile] = useState(false);
+    const [mobile, setIsMobile] = useState(isMobile());
 
     useEffect(() => {
         const checkMobile = () => {
-            setIsMobile(window.innerWidth <= 768);
+            setIsMobile(isMobile());
         };
 
         checkMobile();
@@ -91,20 +93,22 @@ export const Navigation = () => {
         }
     };
 
-    if (isMobile) {
+    if (mobile) {
         return <NavigationMobile />;
     }
 
     return (
         <nav css={NavStyle}>
-            <div css={NavLinksStyle}>
-                <span css={NavLinkStyle} onClick={() => scrollToSection(ABOUT_ME_ID)}>Poznajmy się</span>
-                <span css={NavLinkStyle} onClick={() => scrollToSection(OFFERS_ID)}>Oferta</span>
-                <span css={NavLinkStyle} onClick={() => scrollToSection(PORTFOLIO_ID)}>Portfolio</span>
-                <span css={NavLinkStyle} onClick={() => scrollToSection(REVIEWS_ID)}>Opinie</span>
-                <span css={NavLinkStyle} onClick={() => scrollToSection(CONTACT_ID)}>Kontakt</span>
-            </div>
-            <SocialMediaIcons />
+            {isTablet() ? <NavigationMobile /> : <>
+                <div css={NavLinksStyle}>
+                    <span css={NavLinkStyle} onClick={() => scrollToSection(ABOUT_ME_ID)}>Poznajmy się</span>
+                    <span css={NavLinkStyle} onClick={() => scrollToSection(OFFERS_ID)}>Oferta</span>
+                    <span css={NavLinkStyle} onClick={() => scrollToSection(PORTFOLIO_ID)}>Portfolio</span>
+                    <span css={NavLinkStyle} onClick={() => scrollToSection(REVIEWS_ID)}>Opinie</span>
+                    <span css={NavLinkStyle} onClick={() => scrollToSection(CONTACT_ID)}>Kontakt</span>
+                </div>
+                <SocialMediaIcons />
+            </>}
         </nav>
     );
 }

@@ -1,8 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 import { useState, useRef, useEffect } from 'react';
 import { Image } from '../../Images';
 import { withMyTheme, SMALL_ROUNDED_CORNER } from '../../theme/theme';
+import { useInView } from 'react-intersection-observer';
 
 const MobileContainerStyle = withMyTheme(() => css`
     position: relative;
@@ -22,7 +23,18 @@ const MobileScrollerStyle = withMyTheme(() => css`
     }
 `);
 
-const MobileImageStyle = withMyTheme(() => css`
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const MobileImageStyle = (theme: any, isVisible = false, index = 0) => css`
     width: 75vw;
     height: 55vh;
     object-fit: cover;
@@ -30,13 +42,27 @@ const MobileImageStyle = withMyTheme(() => css`
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     flex-shrink: 0;
     scroll-snap-align: center;
-`);
+    
+    /* Animation styles */
+    opacity: ${isVisible ? 1 : 0};
+    transform: ${isVisible ? 'translateY(0)' : 'translateY(30px)'};
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transition-delay: ${0.2 + (index * 0.15)}s;
+    will-change: opacity, transform;
+`;
 
-const PageIndicatorContainerStyle = withMyTheme(() => css`
+const PageIndicatorContainerStyle = withMyTheme((theme, isVisible = false) => css`
     display: flex;
     justify-content: center;
     gap: 8px;
     margin-top: 20px;
+    
+    /* Animation styles */
+    opacity: ${isVisible ? 1 : 0};
+    transform: translateY(${isVisible ? 0 : '20px'});
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transition-delay: 0.5s;
+    will-change: opacity, transform;
 `);
 
 const PageIndicatorStyle = withMyTheme((theme, active: boolean) => css`
@@ -59,6 +85,11 @@ const portfolioImages = [
 ];
 
 export const PortfolioMobile = () => {
+    // Using react-intersection-observer hook for animations
+    const { ref: containerRef, inView } = useInView({
+        threshold: 0.1,
+        triggerOnce: true
+    });
     const [activeIndex, setActiveIndex] = useState(0);
     const scrollerRef = useRef<HTMLDivElement>(null);
 
@@ -90,20 +121,20 @@ export const PortfolioMobile = () => {
     }, []);
 
     return (
-        <div css={MobileContainerStyle}>
+        <div css={MobileContainerStyle} ref={containerRef}>
             <div css={MobileScrollerStyle} ref={scrollerRef}>
                 {portfolioImages.map((image, index) => (
                     <img
                         key={index}
                         src={image.src}
                         alt={image.alt}
-                        css={MobileImageStyle}
+                        css={(theme) => MobileImageStyle(theme, inView, index)}
                     />
                 ))}
             </div>
             
             {/* Page Indicators */}
-            <div css={PageIndicatorContainerStyle}>
+            <div css={(theme) => PageIndicatorContainerStyle(theme, inView)}>
                 {portfolioImages.map((_, index) => (
                     <div
                         key={index}

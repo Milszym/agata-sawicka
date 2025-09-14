@@ -1,18 +1,43 @@
 /** @jsxImportSource @emotion/react */
 import { useState, useEffect, useRef } from 'react';
+import { useInView } from 'react-intersection-observer';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { DESKTOP_CONTENT_PADDING, DESKTOP_TITLE_FONT_SIZE, MOBILE_CONTENT_PADDING, MOBILE_TITLE_FONT_SIZE, withMyTheme } from "../../theme/theme";
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 import { mobileCss, isMobile } from "../../theme/isMobile";
 import { MyButton } from '../../components/button/MyButton';
 import { Image } from '../../Images';
 import { OfferDto } from './Offers';
 import { useNavigate } from 'react-router-dom';
+import initialOffers from './initial_offers.json';
 
-export const OFFERS_ALTERNATIVE_ID = 'offers';
+export const OFFERS_ALTERNATIVE_ID = 'offers-alternative';
 
 const url = 'http://localhost/wordpress-test/wp-json/wp/v2/makeupoffers';
+
+// Animation keyframes
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const scaleIn = keyframes`
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+`;
 
 const ContainerStyle = withMyTheme((theme) => css`
     display: flex;
@@ -28,13 +53,19 @@ const ContainerStyle = withMyTheme((theme) => css`
     `)}
 `);
 
-const TitleStyle = withMyTheme((theme) => css`
+const TitleStyle = withMyTheme((theme, visible: boolean = false) => css`
     font-size: ${DESKTOP_TITLE_FONT_SIZE};
     font-family: ${theme.typography.h1.fontFamily};
     color: ${theme.palette.primary.main};
     text-align: center;
     margin-bottom: 3vh;
     margin-top: 0;
+    
+    /* Animation styles */
+    opacity: ${visible ? 1 : 0};
+    animation: ${visible ? scaleIn : 'none'} 0.7s ease-out forwards;
+    transition: opacity 0.7s ease-out;
+    will-change: opacity, transform;
     
     ${mobileCss(`
         font-size: ${MOBILE_TITLE_FONT_SIZE};
@@ -68,19 +99,23 @@ const ScrollerStyle = css`
     `)}
 `;
 
-const OfferTileStyle = withMyTheme((theme) => css`
+const OfferTileStyle = withMyTheme((theme, isVisible: boolean = false) => css`
     display: flex;
     flex-direction: column;
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     cursor: pointer;
     flex-shrink: 0;
     width: 25vw;
     scroll-snap-align: center;
     scroll-snap-stop: always;
+    
+    /* Animation styles */
+    opacity: ${isVisible ? 1 : 0};
+    transform: translateY(${isVisible ? 0 : '30px'});
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.2s ease-in-out;
     
     &:hover {
         transform: translateY(-4px);
@@ -94,7 +129,7 @@ const OfferTileStyle = withMyTheme((theme) => css`
 
 const OfferImageStyle = css`
     width: 100%;
-    height: 25vh;
+    height: 33vh;
     object-fit: cover;
     
     ${mobileCss(`
@@ -125,21 +160,35 @@ const OfferTitleStyle = withMyTheme((theme) => css`
     `)}
 `);
 
-const ButtonStyle = withMyTheme(() =>css`
+const ButtonStyle = withMyTheme((theme, visible: boolean = false) => css`
     align-self: center;
     width: 75%;
-     ${mobileCss(`
-        width: none;
+    
+    /* Animation styles */
+    opacity: ${visible ? 1 : 0};
+    transform: translateY(${visible ? 0 : '20px'});
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
+    
+    ${mobileCss(`
+        width: auto;
         font-size: 4vw;
     `)}
 `);
 
-const PageIndicatorContainerStyle = css`
+const PageIndicatorContainerStyle = withMyTheme((theme, visible: boolean = false) => css`
     display: flex;
     justify-content: center;
     gap: 8px;
     margin-top: 20px;
-`;
+    
+    /* Animation styles */
+    opacity: ${visible ? 1 : 0};
+    transform: translateY(${visible ? 0 : '20px'});
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transition-delay: 0.3s;
+    will-change: opacity, transform;
+`);
 
 const PageIndicatorStyle = withMyTheme((theme, active: boolean) => css`
     width: 12px;
@@ -154,22 +203,14 @@ const PageIndicatorStyle = withMyTheme((theme, active: boolean) => css`
     }
 `);
 
-const BookingButtonStyle = withMyTheme((theme) => css`
+const BookingButtonStyle = withMyTheme((theme, visible: boolean = false) => css`
     margin-top: 7vh;
-    background-color: ${theme.palette.primary.main} !important;
     padding: 12px 24px;
     display: flex;
     font-size: 1.2vw;
     align-items: center;
     gap: 8px;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-
-    &:hover {
-        background-color: #00A3AD !important;
-        transform: translateY(-2px);
-        box-shadow: 0 12px 12px rgba(0, 179, 136, 0.2);
-    }
-
+    
     ${mobileCss(`
         width: 90%;
         gap: 2px;
@@ -192,19 +233,31 @@ const BookingIconStyle = css`
 `;
 
 export const OffersAlternative = () => {
+
+    const sortOffers = (offers: OfferDto[]) => {
+        return offers.sort((a, b) => (parseInt(a.acf.kolejnosc_wyswietlania || '0') || 0) - (parseInt(b.acf.kolejnosc_wyswietlania || '0') || 0));
+    }
+    
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const [offers, setOffers] = useState<OfferDto[]>([]);
+    const [offers, setOffers] = useState<OfferDto[]>(sortOffers(initialOffers as OfferDto[]));
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [activeIndex, setActiveIndex] = useState(0);
+    // Using react-intersection-observer hook instead of native IntersectionObserver
+    const { ref: sectionRef, inView } = useInView({
+        threshold: 0.15,
+        triggerOnce: true, // Only trigger once
+        delay: 200 // Small delay to ensure smooth animation
+    });
     const scrollerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const fetchOffers = async () => {
             try {
-                const response = await axios.get<OfferDto[]>(url);
+                const response = await axios.get<OfferDto[]>(url)
                 const data = response.data;
+                console.log(data);
 
                 if (Array.isArray(data) && data.length > 0) {
                     const isValid = data.every(item => item.id !== undefined &&
@@ -215,20 +268,19 @@ export const OffersAlternative = () => {
 
                     if (isValid) {
                         if(data.length > 0) {
-                            setOffers(data);
+                            setOffers(sortOffers(data));
                         } else {
+                            setOffers(initialOffers as OfferDto[]);
                             setGeneralError();
                         }
                     } else {
                         setGeneralError();
-                        setOffers([]);
                     }
                 } else {
-                    setOffers([]);
+                    setGeneralError();
                 }
             } catch (err) {
                 setGeneralError();
-                setOffers([]);
             } finally {
                 setLoading(false);
             }
@@ -238,7 +290,8 @@ export const OffersAlternative = () => {
     }, []);
 
     const setGeneralError = () => {
-        setError("Nie udało się załadować ofert 😔. Spójrz na oferty na Booksy lub skontaktuj się ze mną.");
+        setOffers(sortOffers(initialOffers as OfferDto[]))
+        // setError("Nie udało się załadować ofert 😔. Spójrz na oferty na Booksy lub skontaktuj się ze mną.");
     };
 
     const handleScroll = () => {
@@ -307,6 +360,9 @@ export const OffersAlternative = () => {
             }, 100); // Small delay to ensure DOM is ready
         }
     }, [offers.length]);
+    
+    // No need for the effect to handle animation on scroll
+    // The useInView hook handles this for us
 
     const handleOfferClick = (offerId: number) => {
         navigate(`/oferta/${offerId}`);
@@ -325,22 +381,28 @@ export const OffersAlternative = () => {
     }
 
     return (
-        <section css={ContainerStyle} id={OFFERS_ALTERNATIVE_ID}>
-            <h2 css={TitleStyle}>{t('offers.title')}</h2>
+        <section css={ContainerStyle} id={OFFERS_ALTERNATIVE_ID} ref={sectionRef}>
+            <h2 css={(theme) => TitleStyle(theme, inView)}>{t('offers.title')}</h2>
             {error ? (
                 <div css={ErrorText}>{error}</div>
             ) : (
                 <div css={ScrollerContainerStyle}>
                     <div css={ScrollerStyle} ref={scrollerRef}>
-                        {offers.map(offer => (
+                        {offers.map((offer, index) => (
                             <div
                                 key={offer.id}
-                                css={OfferTileStyle}
+                                css={(theme) => {
+                                    // Create a custom style for each tile with its own animation delay
+                                    return css`
+                                        ${OfferTileStyle(theme, inView)}
+                                        transition-delay: ${index * 0.15}s;
+                                    `;
+                                }}
                                 onClick={() => handleOfferClick(offer.id)}
                             >
                                 <img
                                     css={OfferImageStyle}
-                                    src={offer.acf.obraz_oferty.url}
+                                    src={offer.acf.obraz_oferty_desktop && !isMobile() ? offer.acf.obraz_oferty_desktop.url : offer.acf.obraz_oferty.url}
                                     alt={offer.acf.obraz_oferty.alt}
                                 />
                                 <div css={OfferContentStyle}>
@@ -348,14 +410,19 @@ export const OffersAlternative = () => {
                                     <MyButton
                                         text="CZYTAJ WIĘCEJ"
                                         variant="outlined"
-                                        additionalCss={ButtonStyle}
+                                        additionalCss={(theme) => {
+                                            return css`
+                                                ${ButtonStyle(theme, inView)}
+                                                transition-delay: ${0.4 + (index * 0.05)}s;
+                                            `;
+                                        }}
                                     />
                                 </div>
                             </div>
                         ))}
                     </div>
                     
-                    <div css={PageIndicatorContainerStyle}>
+                    <div css={(theme) => PageIndicatorContainerStyle(theme, inView)}>
                         {offers.map((_, index) => (
                             <div
                                 key={index}
@@ -371,7 +438,7 @@ export const OffersAlternative = () => {
                 text="Więcej na"
                 onClick={handleBookingClick}
                 variant="contained"
-                additionalCss={BookingButtonStyle}
+                additionalCss={(theme) => BookingButtonStyle(theme, inView)}
                 endIcon={
                     <img
                         src={Image.BOOKSY_LOGO}

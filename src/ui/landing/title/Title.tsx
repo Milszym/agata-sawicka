@@ -90,19 +90,19 @@ const TitleStyle = withMyTheme((theme) => css`
 
     ${mobileCss(`
         margin-top: 7vh;
-        font-size: 7.5vw;
+        font-size: 3.5vh;
     `)}
 `);
 
 const DescriptionStyle = withMyTheme((theme) => css`
     font-size: 1.9vw;
     line-height: 1.6;
-    margin: 30px 0;
+    margin: 1vh 0;
     font-family: ${theme.typography.body1.fontFamily};
     max-width: 600px;
 
     ${mobileCss(`
-        font-size: 6vw;
+        font-size: 2vh;
     `)}
 `);
 

@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { withMyTheme } from '../../theme/theme';
@@ -8,8 +8,23 @@ import { MyInput } from '../../components/input/MyInput';
 import { MyButton } from '../../components/button/MyButton';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import { PrivacyPolicyDialog } from '../../components/PrivacyPolicyDialog';
+import toast, { Toaster } from 'react-hot-toast';
+import { Instagram, CheckCircle, Cancel } from '@mui/icons-material';
+import { INSTAGRAM_LINK } from '../../landing/footer/SocialMediaIcons';
 
-const FormContainerStyle = withMyTheme((theme) => css`
+// Animation keyframes
+const slideInLeft = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const FormContainerStyle = withMyTheme((theme, isVisible = false) => css`
     flex: 2;
     background-color: ${theme.palette.primary.main};
     padding: 5vh 5vw;
@@ -18,6 +33,12 @@ const FormContainerStyle = withMyTheme((theme) => css`
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     position: relative;
     width: 60vw;
+    
+    /* Animation styles */
+    opacity: ${isVisible ? 1 : 0};
+    transform: translateX(${isVisible ? 0 : '-50px'});
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
 
     ${mobileCss(`
         max-width: 95vw;
@@ -58,11 +79,11 @@ const FormFieldsStyle = withMyTheme(() => css`
 `);
 
 const PrivacyPolicyStyle = withMyTheme((theme) => css`
-    margin: 0 0 1vh 0;
+    margin: 0 0 2vh 0;
     
     .MuiFormControlLabel-label {
         font-family: ${theme.typography.body1.fontFamily};
-        font-size: 1.2vw;
+        font-size: .9vw;
         color: ${theme.palette.secondary.contrastText};
         line-height: 1.4;
         ${mobileCss(`
@@ -94,6 +115,56 @@ const PrivacyPolicyLinkStyle = withMyTheme((theme) => css`
     }
 `);
 
+const ToastStyle = withMyTheme((theme) => css`
+    font-family: ${theme.typography.body1.fontFamily};
+    font-size: 1rem;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-width: 350px;
+    background-color: white;
+    color: ${theme.palette.primary.dark};
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+`);
+
+const SuccessIconStyle = withMyTheme((theme) => css`
+    color: ${theme.palette.success.main};
+    font-size: 24px !important;
+`);
+
+const ErrorIconStyle = withMyTheme((theme) => css`
+    color: ${theme.palette.error.main};
+    font-size: 24px !important;
+`);
+
+const ToastContentStyle = css`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    flex: 1;
+`;
+
+const InstagramLinkStyle = withMyTheme((theme) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: ${theme.palette.primary.dark};
+    text-decoration: underline;
+    font-weight: 500;
+    margin-top: 4px;
+    cursor: pointer;
+    width: 100%;
+    
+    &:hover {
+        opacity: 0.9;
+    }
+`);
+
 const InputFieldStyle = withMyTheme((theme) => css`
     & .MuiInputLabel-root {
         color: ${theme.palette.secondary.contrastText};
@@ -118,12 +189,24 @@ const InputFieldStyle = withMyTheme((theme) => css`
     }
 `);
 
+const ContactButtonStyle = withMyTheme((theme) => css`
+    background-color: ${theme.palette.primary.dark};
+    color: ${theme.palette.primary.contrastText};
+    &:hover {
+        background-color: ${theme.palette.primary.main};
+    }
+`);
+
 interface FormErrors {
     email?: string;
     message?: string;
 }
 
-export const ContactForm = () => {
+interface ContactFormProps {
+    isVisible?: boolean;
+}
+
+export const ContactForm = ({ isVisible = false }: ContactFormProps) => {
     const { t } = useTranslation();
     const [formData, setFormData] = useState({
         name: '',
@@ -200,6 +283,56 @@ export const ContactForm = () => {
         return !emailError && !messageError && privacyAccepted;
     };
 
+    const handleInstagramClick = () => {
+        window.open(INSTAGRAM_LINK, '_blank', 'noopener,noreferrer');
+    };
+
+    const showSuccessToast = () => {
+        toast.custom(
+            (t) => (
+                <div css={ToastStyle}>
+                    <div css={ToastContentStyle}>
+                        <CheckCircle css={SuccessIconStyle} />
+                        <div>Dziękuję za wiadomość! Odpowiem najszybciej jak to możliwe. 😊</div>
+                    </div>
+                </div>
+            ),
+            {
+                duration: 5000,
+                position: 'bottom-center',
+            }
+        );
+    };
+
+    const showErrorToast = () => {
+        toast.custom(
+            (t) => (
+                <div css={ToastStyle}>
+                    
+                    <div css={ToastContentStyle}>
+                        <Cancel css={ErrorIconStyle} />
+                        <div>Wystąpił błąd podczas wysyłania wiadomości.</div>
+                        <div>Proszę napisz do mnie bezpośrednio na Instagram:</div>
+                        <div 
+                            css={InstagramLinkStyle}
+                            onClick={() => {
+                                handleInstagramClick();
+                                toast.dismiss(t.id);
+                            }}
+                        >
+                            <Instagram fontSize="small" />
+                            @agatasawickamakeup
+                        </div>
+                    </div>
+                </div>
+            ),
+            {
+                duration: 8000,
+                position: 'bottom-center',
+            }
+        );
+    };
+
     const handleSubmit = () => {
         // Set all fields as touched
         setTouched({
@@ -215,13 +348,39 @@ export const ContactForm = () => {
         setErrors(newErrors);
 
         if (isFormValid()) {
-            console.log('Form submitted:', formData);
-            // Add actual form submission logic here
+            // Simulate form submission with a 50% chance of success/failure for demonstration
+            // In a real implementation, replace this with actual API call
+            try {
+                // Simulating API call
+                setTimeout(() => {
+                    // For demo purposes: random success/failure
+                    const isSuccess = Math.random() > 0.5;
+                    
+                    if (isSuccess) {
+                        console.log('Form submitted successfully:', formData);
+                        showSuccessToast();
+                        // Reset form after successful submission
+                        setFormData({
+                            name: '',
+                            email: '',
+                            message: ''
+                        });
+                        setPrivacyAccepted(false);
+                    } else {
+                        console.error('Form submission failed');
+                        showErrorToast();
+                    }
+                }, 1000);
+            } catch (error) {
+                console.error('Form submission error:', error);
+                showErrorToast();
+            }
         }
     };
 
     return (
-        <div css={FormContainerStyle}>
+        <div css={(theme) => FormContainerStyle(theme, isVisible)}>
+            <Toaster />
             <h2 css={FormTitleStyle}>
                 {t('contact.title')}
             </h2>
@@ -295,6 +454,7 @@ export const ContactForm = () => {
                     text={t('contact.form.submit')}
                     variant="contained"
                     colorVariant="primary"
+                    additionalCss={ContactButtonStyle}
                     onClick={handleSubmit}
                     disabled={!isFormValid()}
                 />

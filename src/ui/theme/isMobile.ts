@@ -1,4 +1,4 @@
-export const MOBILE_WIDTH = 700;
+export const MOBILE_WIDTH = 770;
 
 export const isMobile = () => {
     return window.innerWidth <= MOBILE_WIDTH;

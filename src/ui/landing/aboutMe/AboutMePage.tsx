@@ -140,7 +140,6 @@ export const AboutMePage = () => {
             </div>
             
             <div css={ImageContainerStyle}>
-                <div css={ImageBackgroundStyle} />
                 <img 
                     src={Image.ABOUT_ME} 
                     alt="O mnie" 

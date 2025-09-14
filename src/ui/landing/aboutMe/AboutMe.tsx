@@ -85,7 +85,7 @@ const AboutMeTitleStyle = withMyTheme((theme) => css`
 
 const AboutMeDescriptionStyle = withMyTheme((theme) => css`
     color: ${theme.palette.text.primary};
-    font-size: 1.8vw;
+    font-size: 1.6vw;
     line-height: 1.8;
     white-space: pre-line;
     font-family: ${theme.typography.body1.fontFamily};
