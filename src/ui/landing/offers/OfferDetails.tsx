@@ -223,8 +223,8 @@ export const OfferDetails = () => {
 
             // Try to find the offer in the initialOffers first
             const findFallbackOffer = () => {
-                const numericId = parseInt(id, 10);
-                const fallbackOffer = initialOffers.find(offer => offer.id === numericId);
+                let a = initialOffers;
+                const fallbackOffer = initialOffers.find(offer => offer.slug === id || offer.id == parseInt(id, 10));
                 if (fallbackOffer) {
                     console.log(`Found offer with ID ${id} in fallback data.`);
                     setOffer(fallbackOffer as OfferDto);
@@ -261,7 +261,12 @@ export const OfferDetails = () => {
     }, [id]);
 
     const handleBackClick = () => {
-        navigate(-1);
+        // Check if we can go back in history, otherwise go to home page
+        if (window.history.length > 2) {
+            navigate(-1);
+        } else {
+            navigate('/');
+        }
     };
 
     if (loading) {

@@ -6,23 +6,11 @@ import { withMyTheme } from '../../theme/theme';
 import { mobileCss } from '../../theme/isMobile';
 import { MyInput } from '../../components/input/MyInput';
 import { MyButton } from '../../components/button/MyButton';
-import { Checkbox, FormControlLabel } from '@mui/material';
+import { Checkbox, FormControlLabel, CircularProgress } from '@mui/material';
 import { PrivacyPolicyDialog } from '../../components/PrivacyPolicyDialog';
 import toast, { Toaster } from 'react-hot-toast';
 import { Instagram, CheckCircle, Cancel } from '@mui/icons-material';
 import { INSTAGRAM_LINK } from '../../landing/footer/SocialMediaIcons';
-
-// Animation keyframes
-const slideInLeft = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-`;
 
 const FormContainerStyle = withMyTheme((theme, isVisible = false) => css`
     flex: 2;
@@ -41,7 +29,7 @@ const FormContainerStyle = withMyTheme((theme, isVisible = false) => css`
     will-change: opacity, transform;
 
     ${mobileCss(`
-        max-width: 95vw;
+        max-width: 75vw;
         width: 75vw;
         margin: 2vh 0 .5vh 0;
     `)}
@@ -195,6 +183,16 @@ const ContactButtonStyle = withMyTheme((theme) => css`
     &:hover {
         background-color: ${theme.palette.primary.main};
     }
+    position: relative;
+`);
+
+const LoadingSpinnerStyle = withMyTheme((theme) => css`
+    position: absolute;
+    color: ${theme.palette.primary.contrastText};
+`);
+
+const ButtonTextStyle = withMyTheme((theme, isLoading = false) => css`
+    visibility: ${isLoading ? 'hidden' : 'visible'};
 `);
 
 interface FormErrors {
@@ -220,6 +218,7 @@ export const ContactForm = ({ isVisible = false }: ContactFormProps) => {
     });
     const [privacyAccepted, setPrivacyAccepted] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const validateEmail = (email: string) => {
         if (!email) {
@@ -348,6 +347,9 @@ export const ContactForm = ({ isVisible = false }: ContactFormProps) => {
         setErrors(newErrors);
 
         if (isFormValid()) {
+            // Start loading state
+            setIsLoading(true);
+            
             // Simulate form submission with a 50% chance of success/failure for demonstration
             // In a real implementation, replace this with actual API call
             try {
@@ -370,10 +372,14 @@ export const ContactForm = ({ isVisible = false }: ContactFormProps) => {
                         console.error('Form submission failed');
                         showErrorToast();
                     }
-                }, 1000);
+                    
+                    // End loading state
+                    setIsLoading(false);
+                }, 1500);
             } catch (error) {
                 console.error('Form submission error:', error);
                 showErrorToast();
+                setIsLoading(false);
             }
         }
     };
@@ -451,13 +457,17 @@ export const ContactForm = ({ isVisible = false }: ContactFormProps) => {
 
             <div css={css`display: flex; justify-content: center;`}>
                 <MyButton
-                    text={t('contact.form.submit')}
                     variant="contained"
                     colorVariant="primary"
                     additionalCss={ContactButtonStyle}
                     onClick={handleSubmit}
-                    disabled={!isFormValid()}
-                />
+                    disabled={!isFormValid() || isLoading}
+                >
+                    {isLoading && <CircularProgress size={24} css={LoadingSpinnerStyle} />}
+                    <span css={(theme) => ButtonTextStyle(theme, isLoading)}>
+                        {t('contact.form.submit')}
+                    </span>
+                </MyButton>
             </div>
 
             <PrivacyPolicyDialog

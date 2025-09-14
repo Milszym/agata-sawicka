@@ -22,36 +22,18 @@ const ContactContainerStyle = withMyTheme(() => css`
     padding-left: 0;
     
     ${mobileCss(`
+        max-width: 100%;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+        box-sizing: border-box;
         background-image: url(${Image.CONTACT_FORM_PHOTO});
         flex-direction: column;
         align-items: center;
         ${MOBILE_CONTENT_PADDING}
-        padding-top: vh;
+        padding-right: 0;
+        padding-left: 0;
+        margin: 0;
     `)}
 `);
-
-// Animation keyframes
-const slideInRight = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-`;
-
-const slideInLeft = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-`;
 
 const InstagramContactStyle = withMyTheme((theme, isVisible = false) => css`
     flex: 1;
@@ -60,6 +42,8 @@ const InstagramContactStyle = withMyTheme((theme, isVisible = false) => css`
     align-items: center;
     justify-content: center;
     padding: 40px;
+    box-sizing: border-box;
+    max-width: 100%;
     
     /* Animation styles */
     opacity: ${isVisible ? 1 : 0};
@@ -68,7 +52,10 @@ const InstagramContactStyle = withMyTheme((theme, isVisible = false) => css`
     will-change: opacity, transform;
     
     ${mobileCss(`
-        padding: 40px 40px 0 40px;
+        padding: 0;
+        margin: 4vh 0 0 0;
+        max-width: 85vw;
+        width: 100%;
     `)}
 `);
 
@@ -82,6 +69,15 @@ const InstagramCardStyle = withMyTheme(() => css`
     align-items: center;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     max-width: 400px;
+    box-sizing: border-box;
+    width: 100%;
+    
+    ${mobileCss(`
+        margin: 0;
+        padding: 20px;
+        box-shadow: none;
+        max-width: 85vw;
+    `)}
 `);
 
 const InstagramTextStyle = withMyTheme((theme) => css`
@@ -90,6 +86,7 @@ const InstagramTextStyle = withMyTheme((theme) => css`
     text-align: center;
     font-size: 1.25vw;
     margin-bottom: 1.5rem;
+    max-width: 100%;
     
     ${mobileCss(`
         font-size: 5vw;
@@ -99,9 +96,11 @@ const InstagramTextStyle = withMyTheme((theme) => css`
 
 const InstagramButtonStyle = withMyTheme(() => css`
     font-size: 1vw !important;
+    max-width: 100%;
 
     ${mobileCss(`
         font-size: 3.2vw !important;
+        white-space: nowrap;
     `)}
 `);
 
@@ -122,8 +121,7 @@ export const Contact = () => {
             <div css={(theme) => InstagramContactStyle(theme, inView)}>
                 <div css={InstagramCardStyle}>
                     <div css={InstagramTextStyle}>
-                        Zachęcam do kontaktu<br />
-                        bezpośrednio przez Instagram
+                        Zachęcam do kontaktu bezpośrednio przez Instagram
                     </div>
                     <MyButton
                         text="Instagram"

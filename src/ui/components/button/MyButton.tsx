@@ -72,11 +72,12 @@ const ButtonSecondaryStyle = withMyTheme((theme: Theme, additionalCss?: (theme: 
 interface MyButtonProps extends Omit<MuiButtonProps, 'css' | 'startIcon'> {
     colorVariant?: "primary" | "secondary";
     variant?: "outlined" | "text" | "contained";
-    text: string;
+    text?: string;
     onClick?: () => void;
     additionalCss?: (theme: Theme) => any;
     startIcon?: React.ReactNode;
     type?: "button" | "submit" | "reset"; // Explicitly define type for clarity
+    children?: React.ReactNode;
 }
 
 export const MyButton = ({
@@ -87,6 +88,7 @@ export const MyButton = ({
     additionalCss,
     startIcon,
     type = "button", // Default type is "button"
+    children,
     ...props // Spread operator to capture all other props
 }: MyButtonProps) => {
     const style = colorVariant === 'secondary' ? ButtonSecondaryStyle : ButtonPrimaryStyle;
@@ -101,7 +103,7 @@ export const MyButton = ({
             type={type}
             {...props}
         >
-            {text}
+            {children || text}
         </Button>
     );
 }

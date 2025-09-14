@@ -108,11 +108,11 @@ export const NavigationMobile = () => {
                         <span css={MenuItemStyle} onClick={() => scrollToSection(OFFERS_ID)}>
                             Oferta
                         </span>
-                        <span css={MenuItemStyle} onClick={() => scrollToSection(PORTFOLIO_ID)}>
-                            Portfolio
-                        </span>
                         <span css={MenuItemStyle} onClick={() => scrollToSection(REVIEWS_ID)}>
                             Opinie
+                        </span>
+                        <span css={MenuItemStyle} onClick={() => scrollToSection(PORTFOLIO_ID)}>
+                            Portfolio
                         </span>
                         <span css={MenuItemStyle} onClick={() => scrollToSection(CONTACT_ID)}>
                             Kontakt

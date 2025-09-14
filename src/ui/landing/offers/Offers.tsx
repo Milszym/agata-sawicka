@@ -28,6 +28,7 @@ interface AcfFields {
 export interface OfferDto {
     id: number;
     acf: AcfFields;
+    slug?: string;
 }
 
 const url = 'http://localhost/wordpress-test/wp-json/wp/v2/makeupoffers'

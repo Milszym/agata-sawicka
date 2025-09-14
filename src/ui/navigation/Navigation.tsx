@@ -103,8 +103,8 @@ export const Navigation = () => {
                 <div css={NavLinksStyle}>
                     <span css={NavLinkStyle} onClick={() => scrollToSection(ABOUT_ME_ID)}>Poznajmy się</span>
                     <span css={NavLinkStyle} onClick={() => scrollToSection(OFFERS_ID)}>Oferta</span>
-                    <span css={NavLinkStyle} onClick={() => scrollToSection(PORTFOLIO_ID)}>Portfolio</span>
                     <span css={NavLinkStyle} onClick={() => scrollToSection(REVIEWS_ID)}>Opinie</span>
+                    <span css={NavLinkStyle} onClick={() => scrollToSection(PORTFOLIO_ID)}>Portfolio</span>
                     <span css={NavLinkStyle} onClick={() => scrollToSection(CONTACT_ID)}>Kontakt</span>
                 </div>
                 <SocialMediaIcons />

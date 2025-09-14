@@ -5,14 +5,15 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { DESKTOP_CONTENT_PADDING, DESKTOP_TITLE_FONT_SIZE, MOBILE_CONTENT_PADDING, MOBILE_TITLE_FONT_SIZE, withMyTheme } from "../../theme/theme";
 import { css, keyframes } from "@emotion/react";
-import { mobileCss, isMobile } from "../../theme/isMobile";
+import { mobileCss, isMobile, MOBILE_WIDTH } from "../../theme/isMobile";
 import { MyButton } from '../../components/button/MyButton';
 import { Image } from '../../Images';
 import { OfferDto } from './Offers';
 import { useNavigate } from 'react-router-dom';
 import initialOffers from './initial_offers.json';
+import { alpha } from '@mui/material';
 
-export const OFFERS_ALTERNATIVE_ID = 'offers-alternative';
+export const OFFERS_ALTERNATIVE_ID = 'offers';
 
 const url = 'http://localhost/wordpress-test/wp-json/wp/v2/makeupoffers';
 
@@ -112,14 +113,22 @@ const OfferTileStyle = withMyTheme((theme, isVisible: boolean = false) => css`
     scroll-snap-align: center;
     scroll-snap-stop: always;
     
+    /* Mobile tap highlight color */
+    -webkit-tap-highlight-color: ${alpha(theme.palette.primary.light, 0.1)}; 
+    tap-highlight-color: ${alpha(theme.palette.primary.light, 0.1)};
+    touch-action: manipulation; /* Optimize for touch interactions */
+    
     /* Animation styles */
     opacity: ${isVisible ? 1 : 0};
     transform: translateY(${isVisible ? 0 : '30px'});
     transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.2s ease-in-out;
     
-    &:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    @media (min-width: ${MOBILE_WIDTH + 1}px) {
+        &:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+        }
     }
     
     ${mobileCss(`
@@ -350,7 +359,7 @@ export const OffersAlternative = () => {
             scroller.addEventListener('scroll', handleScroll);
             return () => scroller.removeEventListener('scroll', handleScroll);
         }
-    }, [offers.length]);
+    }, [offers.length, scrollerRef.current]);
 
     // Effect to scroll to second item initially
     useEffect(() => {
@@ -359,13 +368,10 @@ export const OffersAlternative = () => {
                 scrollToIndex(1);
             }, 100); // Small delay to ensure DOM is ready
         }
-    }, [offers.length]);
+    }, [offers.length, scrollerRef.current]);
     
-    // No need for the effect to handle animation on scroll
-    // The useInView hook handles this for us
-
-    const handleOfferClick = (offerId: number) => {
-        navigate(`/oferta/${offerId}`);
+    const handleOfferClick = (offerSlug: string) => {
+        navigate(`/oferta/${offerSlug}`);
     };
 
     const handleBookingClick = () => {
@@ -398,7 +404,7 @@ export const OffersAlternative = () => {
                                         transition-delay: ${index * 0.15}s;
                                     `;
                                 }}
-                                onClick={() => handleOfferClick(offer.id)}
+                                onClick={() => handleOfferClick(offer.slug || `${offer.id}`)}
                             >
                                 <img
                                     css={OfferImageStyle}

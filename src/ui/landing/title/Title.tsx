@@ -1,21 +1,24 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import * as React from 'react';
-import { Fullscreen } from "../../components/Fullscreen"
 import { MyButton } from "../../components/button/MyButton"
 import { Image } from "../../Images"
 import { withMyTheme } from "../../theme/theme"
-import { isMobile, mobileCss } from '../../theme/isMobile';
+import { mobileCss } from '../../theme/isMobile';
 import { Navigation } from '../../navigation/Navigation';
 
-const BackgroundStyle = withMyTheme(() => css`
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
+const TitleFullScreenStyle = withMyTheme(() => css`
+    background-image: url(${Image.HEROBANNER});
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    
+    ${mobileCss(`
+        background-image: url(${Image.HEROBANNER_MOBILE});
+    `)}
 `);
 
 const getLogoStyle = (scrollProgress: number) => withMyTheme(() => {
@@ -45,11 +48,11 @@ const getLogoStyle = (scrollProgress: number) => withMyTheme(() => {
             left: 15px;
         `)}
 
-        &:nth-of-type(3) {
+        &:nth-of-type(2) {
             opacity: ${scrollProgress < 0.8 ? 1 : 0};
         }
 
-        &:nth-of-type(2) {
+        &:nth-of-type(1) {
             z-index: 11;
             opacity: ${scrollProgress > 0.8 && scrollProgress < 1.2 ? 1 : 0};
         }
@@ -61,23 +64,26 @@ const TitleContentStyle = withMyTheme((theme) => css`
     flex-direction: column;
     align-items: center;
     text-align: center;
+    justify-content: center;
     gap: 20px;
     color: ${theme.palette.common.white};
     margin-top: 15vh;
     margin-left: auto;
     margin-right: 5vw;
+    margin-bottom: 5vh;
     width: 45vw;
+    height: 100vh;
 
     ${mobileCss(`
         margin-top: 0;
         margin-bottom: 5vh;
         display: flex;
-        height: 100%;
+        height: 100vh;
         flex-direction: column;
         justify-content: flex-end;
         text-align: center;
         align-items: center;
-        width: 90vw;
+        width: 100vw;
     `)}
 `);
 
@@ -89,6 +95,7 @@ const TitleStyle = withMyTheme((theme) => css`
     opacity: 0.9;
 
     ${mobileCss(`
+        margin: 0 2vw;
         margin-top: 7vh;
         font-size: 3.5vh;
     `)}
@@ -102,6 +109,7 @@ const DescriptionStyle = withMyTheme((theme) => css`
     max-width: 600px;
 
     ${mobileCss(`
+        margin: 0 2vw;
         font-size: 2vh;
     `)}
 `);
@@ -120,6 +128,7 @@ const ButtonStyle = withMyTheme((theme) => css`
     }
     ${mobileCss(`
         width: 50vw;
+        margin-bottom: 5vh;
     `)}
 `);
 
@@ -149,12 +158,7 @@ export const Title = () => {
         }
     };
 
-    return <Fullscreen additionalCss={() => css`position: relative;`}>
-        <img
-            src={isMobile() ? Image.HEROBANNER_MOBILE : Image.HEROBANNER}
-            alt="Herobanner"
-            css={BackgroundStyle}
-        />
+    return <div css={TitleFullScreenStyle}>    
         <img
             src={Image.LOGO_BLACK}
             alt="Agata Sawicka Logo"
@@ -181,5 +185,5 @@ export const Title = () => {
                 additionalCss={ButtonStyle}
             />
         </div>
-    </Fullscreen>
+    </div>
 }

@@ -125,7 +125,14 @@ export const AboutMePage = () => {
         <div css={AboutMeContainerStyle} id={ABOUT_ME_PAGE_ID}>
              <MyButton 
                     text="Powrót"
-                    onClick={() => navigate(-1)}
+                    onClick={() => {
+                        // Check if we can go back in history, otherwise go to home page
+                        if (window.history.length > 2) {
+                            navigate(-1);
+                        } else {
+                            navigate('/');
+                        }
+                    }}
                     variant="contained"
                     startIcon={<ArrowBack />}
                     additionalCss={ButtonStyle}
