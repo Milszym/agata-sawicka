@@ -14,7 +14,7 @@ import { SocialMediaIcons } from '../landing/footer/SocialMediaIcons';
 const MenuButtonStyle = withMyTheme((theme) => css`
     position: fixed;
     top: 20px;
-    right: 10vw;
+    right: 5vw;
     z-index: 1000;
     color: ${theme.palette.common.white};
     

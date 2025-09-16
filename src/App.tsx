@@ -22,7 +22,7 @@ const App = () => {
   }, []);
 
   // Set basename based on environment
-  const basename = ''//process.env.NODE_ENV === 'production' ? '/wordpress-test' : '';
+  const basename = process.env.NODE_ENV === process.env.PUBLIC_URL ? '/wordpress-test' : '';
 
   return <>
     <MainHelmet />

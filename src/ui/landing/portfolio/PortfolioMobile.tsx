@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Image } from '../../Images';
 import { withMyTheme, SMALL_ROUNDED_CORNER } from '../../theme/theme';
 import { useInView } from 'react-intersection-observer';
+import { alpha } from '@mui/material';
 
 const MobileContainerStyle = withMyTheme(() => css`
     position: relative;
@@ -72,6 +73,8 @@ const PageIndicatorStyle = withMyTheme((theme, active: boolean) => css`
     background-color: ${active ? theme.palette.primary.main : theme.palette.divider};
     transition: background-color 0.3s ease, transform 0.2s ease;
     cursor: pointer;
+    -webkit-tap-highlight-color: ${alpha(theme.palette.primary.light, 0.1)}; 
+    tap-highlight-color: ${alpha(theme.palette.primary.light, 0.1)};
     
     &:hover {
         transform: scale(1.2);

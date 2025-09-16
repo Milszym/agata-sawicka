@@ -1,7 +1,6 @@
 export enum Image {
     HEROBANNER = '/images/herobanner_gradient.jpg',
     HEROBANNER_MOBILE = '/images/herobanner_mobile.jpg',
-    HEROBANNER_MOBILE2 = '/images/herobanner_mobile_2.png',
     LOGO = '/images/logo_agata_sawicka_black.png',
     LOGO_BLACK = '/images/logo_agata_sawicka_black.png',
     LOGO_WHITE = '/images/logo_agata_sawicka_white.png',
