@@ -17,10 +17,16 @@ interface OfferImage {
     alt: string;
 }
 
+interface OfferVideo {
+    url: string;
+    alt: string;
+}
+
 interface AcfFields {
     nazwa_oferty: string;
     opis_oferty: string;
     obraz_oferty: OfferImage;
+    optional_video?: OfferVideo;
 }
 
 interface OfferDto {
@@ -131,6 +137,10 @@ const ImageContainerStyle = css`
     max-height 70vh;
     
     ${mobileCss(`
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        justify-content: center;
         max-width: 90vw
     `)}
 `;
@@ -195,6 +205,33 @@ const NotFoundStyle = withMyTheme((theme) => css`
     font-family: ${theme.typography.body1.fontFamily};
     gap: 2rem;
 `)
+
+const OfferVideoStyle = css`
+    position: absolute;
+    bottom: -40px;
+    left: -40px;
+    width: 40%;
+    height: auto;
+    max-height: 40vh;
+    border-radius: ${SMALL_ROUNDED_CORNER};
+    object-fit: cover;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 3;
+    
+    ${mobileCss(`
+        width: 90vw;
+        height: auto;
+        max-height: none;
+        bottom: 10px;
+        left: 10px;
+        position: relative;
+        bottom: unset;
+        left: unset;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    `)}
+`;
 
 export const OfferDetails = () => {
     const { id } = useParams<{ id: string }>();
@@ -353,6 +390,17 @@ export const OfferDetails = () => {
                         alt={offer.acf.obraz_oferty.alt} 
                         css={OfferImageStyle}
                     />
+                    {offer.acf.optional_video && (
+                        <video 
+                            src={getImageUrl(offer.acf.optional_video.url)} 
+                            css={OfferVideoStyle}
+                            preload="auto"
+                            autoPlay
+                            muted
+                            playsInline
+                            controls={false}
+                        />
+                    )}
                 </div>
             </div>
         </>

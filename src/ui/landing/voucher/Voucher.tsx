@@ -1,10 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { css, keyframes } from '@emotion/react';
 import { useInView } from 'react-intersection-observer';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { withMyTheme, SMALL_ROUNDED_CORNER, MOBILE_TITLE_FONT_SIZE, DESKTOP_TITLE_FONT_SIZE, MOBILE_CONTENT_PADDING, DESKTOP_CONTENT_PADDING } from '../../theme/theme';
 import { mobileCss } from '../../theme/isMobile';
 import { Image } from '../../Images';
+import { MyButton } from '../../components/button/MyButton';
+import { BOOKSY_URL } from '../reviews/Reviews';
+import { VoucherDialog } from './VoucherDialog';
 
 export const VOUCHER_ID = 'voucher';
 
@@ -77,7 +81,7 @@ const VoucherTitleStyle = withMyTheme((theme, isVisible = false) => css`
 
 const VoucherDescriptionStyle = withMyTheme((theme, isVisible = false) => css`
     color: ${theme.palette.text.primary};
-    font-size: 1.6vw;
+    font-size: 1.4vw;
     line-height: 1.8;
     text-align: center;
     white-space: pre-line;
@@ -90,12 +94,13 @@ const VoucherDescriptionStyle = withMyTheme((theme, isVisible = false) => css`
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
     transition-delay: 0.2s;
     will-change: opacity, transform;
+    margin-top: 1vh;
     
     ${mobileCss(`
         font-size: 1rem;
         line-height: 1.6;
         max-width: 90vw;
-        margin-bottom: 4vh;
+        margin-bottom: 2vh;
     `)}
 `);
 
@@ -115,7 +120,7 @@ const ImagesContainerStyle = withMyTheme((theme, isVisible = false) => css`
 `);
 
 const FirstImageStyle = withMyTheme((theme, isVisible = false) => css`
-    width: 25vw;
+    width: 20vw;
     height: auto;
     border-radius: ${SMALL_ROUNDED_CORNER};
     object-fit: cover;
@@ -151,7 +156,7 @@ const FirstImageStyle = withMyTheme((theme, isVisible = false) => css`
 `);
 
 const SecondImageStyle = withMyTheme((theme, isVisible = false) => css`
-    width: 25vw;
+    width: 20vw;
     height: auto;
     border-radius: ${SMALL_ROUNDED_CORNER};
     object-fit: cover;
@@ -185,44 +190,33 @@ const SecondImageStyle = withMyTheme((theme, isVisible = false) => css`
     `)}
 `);
 
-const VoucherImageStyle = withMyTheme((theme) => css`
-    width: 25vw;
-    height: auto;
-    border-radius: ${SMALL_ROUNDED_CORNER};
-    object-fit: cover;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    
-    &:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-    }
-    
+const ButtonStyle = withMyTheme((theme, isVisible) => css`
+    font-size: 1vw;
+    max-width: 100%;
+    margin-bottom: 2vh;
+    /* Animation styles */
+    opacity: ${isVisible ? 1 : 0};
+    transform: ${isVisible ? 'translateY(-4px)' : 'translateY(50px)'};
+    transition: opacity 1s ease-out, transform 0.8s ease-out, box-shadow 0.3s ease;
+    will-change: opacity, transform;
+
     ${mobileCss(`
-        width: 50vw;
-        border: 3px solid ${theme.palette.primary.light};
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-        
-        &:first-of-type {
-            transform: rotate(-5deg);
-            z-index: 1;
-        }
-        
-        &:last-of-type {
-            transform: rotate(5deg);
-            margin-left: -20vw;
-            z-index: 2;
-        }
-        
-        &:hover {
-            transform: translateY(-4px) rotate(-5deg);
-            
-            &:last-of-type {
-                transform: translateY(-4px) rotate(5deg);
-            }
-        }
+        font-size: 3.2vw !important;
+        white-space: nowrap;
     `)}
 `);
+
+const BookingIconStyle = css`
+    width: auto;
+    height: 2vh;
+    padding: 2px 0 0 0;
+    margin: 0;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    ${mobileCss(`
+        height: 2vh;
+    `)}
+`;
 
 export const Voucher = () => {
     // Using react-intersection-observer hook for animations
@@ -232,6 +226,7 @@ export const Voucher = () => {
         delay: 200 // Small delay to ensure smooth animation
     });
     const { t } = useTranslation();
+    const [dialogOpen, setDialogOpen] = useState(false);
 
     return (
         <div css={VoucherContainerStyle} id={VOUCHER_ID} ref={sectionRef}>
@@ -241,6 +236,23 @@ export const Voucher = () => {
             <p css={(theme) => VoucherDescriptionStyle(theme, inView)}>
                 {t('voucher.description')}
             </p>
+            <MyButton 
+                text="KUP NA"
+                onClick={() => setDialogOpen(true)}
+                variant="contained"
+                additionalCss={(theme) =>ButtonStyle(theme, inView)}
+                endIcon={
+                    <img
+                        src={Image.BOOKSY_LOGO}
+                        alt="Booksy Logo"
+                        css={BookingIconStyle}
+                    />
+                }
+            />
+            <VoucherDialog 
+                open={dialogOpen}
+                onClose={() => setDialogOpen(false)}
+            />
             <div css={(theme) => ImagesContainerStyle(theme, inView)}>
                 <img 
                     src={Image.VOUCHER_1} 

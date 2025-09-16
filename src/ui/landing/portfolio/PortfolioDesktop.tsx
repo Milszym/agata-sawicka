@@ -52,7 +52,6 @@ const portfolioImages = [
 ];
 
 export const PortfolioDesktop = () => {
-    // Using react-intersection-observer hook for animations
     const { ref: containerRef, inView } = useInView({
         threshold: 0.1,
         triggerOnce: true

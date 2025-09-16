@@ -23,7 +23,7 @@ const FormContainerStyle = withMyTheme((theme, isVisible = false) => css`
     width: 60vw;
     
     /* Animation styles */
-    opacity: ${isVisible ? 1 : 0};
+    opacity: ${isVisible ? 0.95 : 0};
     transform: translateX(${isVisible ? 0 : '-50px'});
     transition: opacity 0.8s ease-out, transform 0.8s ease-out;
     will-change: opacity, transform;

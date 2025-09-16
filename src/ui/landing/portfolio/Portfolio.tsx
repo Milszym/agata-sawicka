@@ -13,8 +13,8 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 export const PORTFOLIO_ID = 'portfolio';
 
 const PortfolioContainerStyle = withMyTheme((theme) => css`
+    background-color: ${theme.palette.background.default};
     ${DESKTOP_CONTENT_PADDING}
-    background-color: ${theme.palette.background.paper};
     ${mobileCss(`
         ${MOBILE_CONTENT_PADDING}
         padding-left: 0;
@@ -36,7 +36,7 @@ const fadeIn = keyframes`
 const PortfolioTitleStyle = withMyTheme((theme, isVisible = false) => css`
     text-align: center;
     margin-bottom: 50px;
-    color: ${theme.palette.primary.main};
+    color: ${theme.palette.text.primary};
     font-size: ${DESKTOP_TITLE_FONT_SIZE};
     font-weight: 600;
     font-family: ${theme.typography.h1.fontFamily};
@@ -105,9 +105,9 @@ export const Portfolio = () => {
             <div css={(theme) => PortfolioTitleStyle(theme, inView)}>
                 {t('portfolio.title')}
             </div>
-            
+
             {isMobileView ? <PortfolioMobile /> : <PortfolioDesktop />}
-            
+
             <div css={(theme) => ButtonContainerStyle(theme, inView)}>
                 <MyButton
                     text={t('portfolio.see_more_on_instagram')}

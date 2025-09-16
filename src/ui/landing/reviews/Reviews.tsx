@@ -8,14 +8,18 @@ import { mobileCss } from '../../theme/isMobile';
 
 export const REVIEWS_ID = 'reviews';
 
-const GOOGLE_URL = 'https://maps.app.goo.gl/pnrCpbJJaBfekdLr8';
-const BOOKSY_URL = 'https://booksy.com/pl-pl/214831_agata-sawicka-makeup-artist_makijaz_21029_gdynia?do=invite&utm_medium=c2c_referral#ba_s=dl_1:~:text=Opinie-,Opinie,-%2C%20przy%20kt%C3%B3rych%20widoczny'
+export const GOOGLE_URL = 'https://maps.app.goo.gl/pnrCpbJJaBfekdLr8';
+export const BOOKSY_URL = 'https://booksy.com/pl-pl/214831_agata-sawicka-makeup-artist_makijaz_21029_gdynia?do=invite&utm_medium=c2c_referral#ba_s=dl_1:~:text=Opinie-,Opinie,-%2C%20przy%20kt%C3%B3rych%20widoczny'
 
-const ReviewsContainerStyle = withMyTheme((theme) => css`
-    background-color: ${theme.palette.background.default};
+const ReviewsContainerStyle = withMyTheme(() => css`
     padding: 4vh 0;
+    background-image: url(${Image.STUDIO_SMALLER});
+    background-attachment: fixed;
+    background-size: cover;
     ${mobileCss(`
+        background-image: url(${Image.STUDIO_REVIEWS_MOBILE});
         ${MOBILE_CONTENT_PADDING}
+        background-size: none;
     `)}
 `);
 
@@ -62,6 +66,7 @@ const TilesContainerStyle = withMyTheme(() => css`
     ${mobileCss(`
         flex-direction: column;
         gap: 2vh;
+        margin-right: 0;
     `)}
 `);
 
@@ -69,34 +74,36 @@ export const Reviews = () => {
     const { t } = useTranslation();
 
     return (
-        <div css={ReviewsContainerStyle} id={REVIEWS_ID}>
-            <h2 css={ReviewsTitleStyle}>
-                {t('reviews.title')}
-            </h2>
-            <p css={ReviewsDescriptionStyle}>
-                {t('reviews.description')}
-            </p>
+        <>
+            <div css={ReviewsContainerStyle} id={REVIEWS_ID}>
+                {/* <h2 css={ReviewsTitleStyle}>
+                    {t('reviews.title')}
+                </h2>
+                <p css={ReviewsDescriptionStyle}>
+                    {t('reviews.description')}
+                </p> */}
 
-            <div css={TilesContainerStyle}>
-                <ReviewTile
-                    logoSrc={Image.GOOGLE_LOGO}
-                    imagePadding={'2vh'}
-                    logoAlt="Opinie Google Maps"
-                    title={t('reviews.google.title')}
-                    description={t('reviews.google.description')}
-                    buttonText={t('reviews.google.button')}
-                    url={GOOGLE_URL}
-                />
+                <div css={TilesContainerStyle}>
+                    <ReviewTile
+                        logoSrc={Image.GOOGLE_LOGO}
+                        imagePadding={'2vh'}
+                        logoAlt="Opinie Google Maps"
+                        title={t('reviews.google.title')}
+                        description={t('reviews.google.description')}
+                        buttonText={t('reviews.google.button')}
+                        url={GOOGLE_URL}
+                    />
 
-                <ReviewTile
-                    logoSrc={Image.BOOKSY_LOGO}
-                    logoAlt="Opinie Booksy"
-                    title={t('reviews.booksy.title')}
-                    description={t('reviews.booksy.description')}
-                    buttonText={t('reviews.booksy.button')}
-                    url={BOOKSY_URL}
-                />
+                    <ReviewTile
+                        logoSrc={Image.BOOKSY_LOGO}
+                        logoAlt="Opinie Booksy"
+                        title={t('reviews.booksy.title')}
+                        description={t('reviews.booksy.description')}
+                        buttonText={t('reviews.booksy.button')}
+                        url={BOOKSY_URL}
+                    />
+                </div>
             </div>
-        </div>
+        </>
     );
 };

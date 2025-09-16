@@ -25,7 +25,7 @@ const ContactContainerStyle = withMyTheme(() => css`
         max-width: 100%;
         overflow-x: hidden; /* Prevent horizontal scrolling */
         box-sizing: border-box;
-        background-image: url(${Image.CONTACT_FORM_PHOTO});
+        background-image: url(${Image.STUDIO});
         flex-direction: column;
         align-items: center;
         ${MOBILE_CONTENT_PADDING}

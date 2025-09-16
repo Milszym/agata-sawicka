@@ -17,12 +17,18 @@ interface OfferImage {
     alt: string;
 }
 
+interface OfferVideo {
+    url: string;
+    alt: string;
+}
+
 interface AcfFields {
     nazwa_oferty: string;
     opis_oferty: string;
     obraz_oferty: OfferImage;
     obraz_oferty_desktop: OfferImage;
     kolejnosc_wyswietlania?: string;
+    optional_video?: OfferVideo
 }
 
 export interface OfferDto {

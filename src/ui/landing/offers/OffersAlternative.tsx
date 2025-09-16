@@ -17,7 +17,6 @@ export const OFFERS_ALTERNATIVE_ID = 'offers';
 
 const url = 'http://localhost/wordpress-test/wp-json/wp/v2/makeupoffers';
 
-// Animation keyframes
 const fadeInUp = keyframes`
   from {
     opacity: 0;
@@ -47,7 +46,7 @@ const ContainerStyle = withMyTheme((theme) => css`
     ${DESKTOP_CONTENT_PADDING}
     justify-content: center;
     color: ${theme.palette.text.primary};
-    background-color: ${theme.palette.background.paper};
+    background-color: ${alpha(theme.palette.primary.main, 0.1)};
     
     ${mobileCss(`
         ${MOBILE_CONTENT_PADDING}
@@ -84,11 +83,18 @@ const ScrollerStyle = css`
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    -webkit-scroll-snap-type: x mandatory;
+    -moz-scroll-snap-type: x mandatory;
+    -ms-scroll-snap-type: x mandatory;
     gap: 2vw;
     padding: 2vh calc(50vw - 12.5vw);
     margin-bottom: 3vh;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    
+    /* Ensure Firefox can scroll this element */
+    overflow: -moz-scrollbars-none; /* Legacy Firefox */
     
     &::-webkit-scrollbar {
         display: none;
@@ -111,7 +117,13 @@ const OfferTileStyle = withMyTheme((theme, isVisible: boolean = false) => css`
     flex-shrink: 0;
     width: 25vw;
     scroll-snap-align: center;
+    -webkit-scroll-snap-align: center;
+    -moz-scroll-snap-align: center;
+    -ms-scroll-snap-align: center;
     scroll-snap-stop: always;
+    -webkit-scroll-snap-stop: always;
+    -moz-scroll-snap-stop: always;
+    -ms-scroll-snap-stop: always;
     
     /* Mobile tap highlight color */
     -webkit-tap-highlight-color: ${alpha(theme.palette.primary.light, 0.1)}; 
@@ -361,7 +373,33 @@ export const OffersAlternative = () => {
     useEffect(() => {
         const scroller = scrollerRef.current;
         if (scroller) {
+            // Add scroll event listener
             scroller.addEventListener('scroll', handleScroll);
+            
+            // Check if browser supports scroll-snap (mainly for older Firefox)
+            const isScrollSnapSupported = 'scrollSnapType' in document.documentElement.style || 
+                                         'webkitScrollSnapType' in document.documentElement.style || 
+                                         'msScrollSnapType' in document.documentElement.style;
+            
+            // Add wheel event listener for older browsers without scroll-snap support
+            if (!isScrollSnapSupported) {
+                const handleWheel = (e: WheelEvent) => {
+                    e.preventDefault();
+                    const delta = Math.sign(e.deltaY);
+                    const scrollAmount = delta * 300; // Adjust scroll amount
+                    scroller.scrollLeft += scrollAmount;
+                    
+                    // Update active index after scroll
+                    setTimeout(handleScroll, 100);
+                };
+                
+                scroller.addEventListener('wheel', handleWheel as EventListener);
+                return () => {
+                    scroller.removeEventListener('scroll', handleScroll);
+                    scroller.removeEventListener('wheel', handleWheel as EventListener);
+                };
+            }
+            
             return () => scroller.removeEventListener('scroll', handleScroll);
         }
     }, [offers.length, scrollerRef.current]);

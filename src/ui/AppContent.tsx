@@ -16,8 +16,8 @@ export const AppContent = () => {
         <AboutMe />
         {/* <Offers /> */}
         <OffersAlternative />
-        <Reviews />
         <Portfolio />
+        <Reviews />
         <Voucher />
         <Contact />
         <Footer />
