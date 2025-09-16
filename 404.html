@@ -1,0 +1,15 @@
+<script type="text/javascript">
+    // Capture the path part of the URL and the query string.
+    var path = window.location.pathname;
+    var query = window.location.search;
+    var segment = 1; // 0 for root domain, 1 for sub-directory like /mywebsite/
+
+    // Redirect to index.html with the captured path and query as a hash.
+    window.location.replace(
+        '/' +
+        path.split('/').slice(0, 1 + segment).join('/') +
+        '/?p=' +
+        path.slice(1).split('/').slice(segment).join('/').replace(/&/g, '~and~') +
+        (query ? '&q=' + query.slice(1).replace(/&/g, '~and~') : '')
+    );
+</script>
