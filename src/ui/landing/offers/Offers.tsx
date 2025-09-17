@@ -9,6 +9,8 @@ import { MyButton } from '../../components/button/MyButton';
 import { Image } from '../../Images';
 import { OffersContent } from './OffersContent';
 import initialOffers from './initial_offers.json';
+import { openUrl } from '../../../util/openLink';
+import { BOOKSY_URL } from '../reviews/Reviews';
 
 export const OFFERS_ID = 'offers';
 
@@ -188,7 +190,7 @@ export const Offers = () => {
     }
 
     const handleBookingClick = () => {
-        window.open('https://booksy.com/pl-pl/dl/show-business/214831', '_blank');
+        openUrl(BOOKSY_URL)
     };
 
     return (

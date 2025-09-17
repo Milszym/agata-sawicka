@@ -4,6 +4,7 @@ import { withMyTheme } from '../../theme/theme';
 import { mobileCss } from '../../theme/isMobile';
 import { Instagram, Facebook, Google } from '@mui/icons-material';
 import { Image } from '../../Images';
+import { openUrl } from '../../../util/openLink';
 
 export const GOOGLE_MAPS_LINK = 'https://maps.app.goo.gl/pnrCpbJJaBfekdLr8'
 export const INSTAGRAM_LINK = 'https://www.instagram.com/agatasawickamakeup'
@@ -49,7 +50,7 @@ const BooksyIconStyle = withMyTheme(() => css`
 
 export const SocialMediaIcons = ({ negative = false, booksyIcon, brownIcons }: { negative?: boolean, booksyIcon?: string, brownIcons?: boolean }) => {
     const handleSocialClick = (url: string) => {
-        window.open(url, '_blank', 'noopener,noreferrer');
+        openUrl(url)
     };
 
     const iconStyle = SocialIconStyle(negative, brownIcons);

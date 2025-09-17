@@ -9,6 +9,8 @@ import { PortfolioDesktop } from './PortfolioDesktop';
 import { PortfolioMobile } from './PortfolioMobile';
 import { MyButton } from '../../components/button/MyButton';
 import InstagramIcon from '@mui/icons-material/Instagram';
+import { INSTAGRAM_LINK } from '../footer/SocialMediaIcons';
+import { openUrl } from '../../../util/openLink';
 
 export const PORTFOLIO_ID = 'portfolio';
 
@@ -97,7 +99,7 @@ export const Portfolio = () => {
     }, []);
 
     const handleInstagramClick = () => {
-        window.open('https://www.instagram.com/agatasawickamakeup/', '_blank');
+        openUrl(INSTAGRAM_LINK)
     };
 
     return (

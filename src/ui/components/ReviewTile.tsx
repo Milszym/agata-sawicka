@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import { MyButton } from './button/MyButton';
 import { withMyTheme } from '../theme/theme';
 import { mobileCss } from '../theme/isMobile';
+import { openUrl } from '../../util/openLink';
 
 const TileStyle = withMyTheme((theme) => css`
     background: ${theme.palette.background.paper};
@@ -72,7 +73,7 @@ export const ReviewTile = ({
     url
 }: ReviewTileProps) => {
     const handleClick = () => {
-        window.open(url, '_blank', 'noopener,noreferrer');
+        openUrl(url)
     };
 
     return (

@@ -11,6 +11,7 @@ import { PrivacyPolicyDialog } from '../../components/PrivacyPolicyDialog';
 import toast, { Toaster } from 'react-hot-toast';
 import { Instagram, CheckCircle, Cancel } from '@mui/icons-material';
 import { INSTAGRAM_LINK } from '../../landing/footer/SocialMediaIcons';
+import { openUrl } from '../../../util/openLink';
 
 const FormContainerStyle = withMyTheme((theme, isVisible = false) => css`
     flex: 2;
@@ -283,7 +284,7 @@ export const ContactForm = ({ isVisible = false }: ContactFormProps) => {
     };
 
     const handleInstagramClick = () => {
-        window.open(INSTAGRAM_LINK, '_blank', 'noopener,noreferrer');
+        openUrl(INSTAGRAM_LINK)
     };
 
     const showSuccessToast = () => {

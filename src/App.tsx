@@ -5,6 +5,9 @@ import { ThemeProvider } from '@emotion/react';
 import { AppContent } from './ui/AppContent';
 import { OfferDetails } from './ui/landing/offers/OfferDetails';
 import { AboutMePage } from './ui/landing/aboutMe/AboutMePage';
+import { SuperAdmin } from './ui/admin/SuperAdmin';
+import { GitHubCallback } from './ui/admin/GitHubCallback';
+import { SuperAdminPanel } from './ui/admin/SuperAdminPanel';
 import { MainHelmet } from './helmet/MainHelmet';
 
 const App = () => {
@@ -32,6 +35,9 @@ const App = () => {
           <Route path="/" element={<AppContent />} />
           <Route path="/oferta/:id" element={<OfferDetails />} />
           <Route path="/poznajmy-sie" element={<AboutMePage />} />
+          <Route path="/super-admin" element={<SuperAdmin />} />
+          <Route path="/super-admin/callback" element={<GitHubCallback />} />
+          <Route path="/super-admin-panel" element={<SuperAdminPanel />} />
         </Routes>
       </Router>
     </ThemeProvider>

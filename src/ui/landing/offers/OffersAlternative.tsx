@@ -12,6 +12,8 @@ import { OfferDto } from './Offers';
 import { useNavigate } from 'react-router-dom';
 import initialOffers from './initial_offers.json';
 import { alpha } from '@mui/material';
+import { BOOKSY_URL } from '../reviews/Reviews';
+import { openUrl } from '../../../util/openLink';
 
 export const OFFERS_ALTERNATIVE_ID = 'offers';
 
@@ -418,7 +420,7 @@ export const OffersAlternative = () => {
     };
 
     const handleBookingClick = () => {
-        window.open('https://booksy.com/pl-pl/dl/show-business/214831', '_blank');
+        openUrl(BOOKSY_URL)
     };
 
     if (loading) {

@@ -8,6 +8,7 @@ import { ContactForm } from './ContactForm';
 import { Instagram } from '@mui/icons-material';
 import { MyButton } from '../../components/button/MyButton';
 import { INSTAGRAM_LINK } from '../footer/SocialMediaIcons';
+import { openUrl } from '../../../util/openLink';
 
 export const CONTACT_ID = 'contact';
 
@@ -112,7 +113,7 @@ export const Contact = () => {
         delay: 200 // Small delay to ensure smooth animation
     });
     const handleInstagramClick = () => {
-        window.open(INSTAGRAM_LINK, '_blank', 'noopener,noreferrer');
+        openUrl(INSTAGRAM_LINK)
     };
 
     return (
