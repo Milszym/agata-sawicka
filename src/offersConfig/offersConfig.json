@@ -6,15 +6,15 @@
             "nazwa_oferty": "KURS DLA WIZA\u017bYST\u00d3W",
             "opis_oferty": "<p>Kurs makija\u017cu dedykowany jest osobom, kt\u00f3re chc\u0105 zacz\u0105\u0107 przygod\u0119 z makija\u017cem lub chc\u0105 udoskonali\u0107 swoje umiej\u0119tno\u015bci. Podczas szkolenia dziel\u0119 si\u0119 swoimi autorskimi technikami oraz swoimi kosmetycznymi pere\u0142kami.<\/p>        <p>Makija\u017c jest wykonywany na modelce z moj\u0105 pomoc\u0105. Udost\u0119pniam swoje wszystkie kosmetyki, kt\u00f3re s\u0105 najwy\u017cszej jako\u015bci. Szkolenia odbywaj\u0105 si\u0119 w moim studio w Gdyni na D\u0105browie.<\/p>        <hr>        <h2>Co zawiera kurs?<\/h2>      <ul>          <li>Teoria<\/li>          <li>Psychologiczne aspekty pracy z klientem<\/li>          <li>Praktyka<\/li>      <\/ul>        <p>Nieod\u0142\u0105cznym elementem ka\u017cdego kursu jest przygotowanie cery, czyli szczeg\u00f3\u0142owe om\u00f3wienie odpowiedniej piel\u0119gnacji dobranej do typu sk\u00f3ry.<\/p>      <p>Tematyk\u0119 szkolenia ustalamy indywidualnie.<\/p>        <hr>        <h2>Dodatkowe informacje<\/h2>      <ul>          <li>Po uko\u0144czonym kursie kursantka otrzymuje <strong>certyfikat<\/strong> oraz <strong>gift bag<\/strong>.<\/li>          <li>Cena jest ustalana indywidualnie, w zale\u017cno\u015bci od zakresu tematyki, ilo\u015bci wykonywanych makija\u017cy oraz um\u00f3wionych dni.<\/li>      <\/ul><\/div>",
             "obraz_oferty": {
-                "filename": "makeup_course.jpg",
+                "filename": "kurs_makijazu.png",
                 "filesize": 644127,
-                "url": "images/makeup_course.jpg",
+                "url": "images/kurs_makijazu.png",
                 "link": "http:\/\/localhost\/wordpress-test\/makeupoffers\/lekcja-makijazu\/screenshot\/",
                 "alt": "Kurs dla wiza\u017cyst\u00f3w"
             },
             "obraz_oferty_desktop": {
                 "filesize": 475723,
-                "url": "images/makeup_course_desktop.jpg",
+                "url": "images/kurs_makijazu_desktop_tile.jpg",
                 "link": "http:\/\/localhost\/wordpress-test\/makeupoffers\/kurs-dla-wizazystow\/makeup_course_desktop-2\/",
                 "alt": "Kurs makija\u017cu"
             },

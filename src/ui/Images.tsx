@@ -13,6 +13,7 @@ export enum Image {
     STUDIO_SMALLER = '/images/studio_smaller.jpg',
     STUDIO_REVIEWS_MOBILE = '/images/studio_reviews_mobile_2.jpg',
     STUDIO = '/images/studio.jpeg',
+    STUDIO_VIDEO = '/images/studio_video.mp4',
     PORTFOLIO_1 = '/images/portfolio_1.png',
     PORTFOLIO_2 = '/images/portfolio_2.png',
     PORTFOLIO_3 = '/images/portfolio_3.png',

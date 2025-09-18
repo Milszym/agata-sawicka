@@ -5,10 +5,8 @@ import { ThemeProvider } from '@emotion/react';
 import { AppContent } from './ui/AppContent';
 import { OfferDetails } from './ui/landing/offers/OfferDetails';
 import { AboutMePage } from './ui/landing/aboutMe/AboutMePage';
-import { SuperAdmin } from './ui/admin/SuperAdmin';
-import { GitHubCallback } from './ui/admin/GitHubCallback';
-import { SuperAdminPanel } from './ui/admin/SuperAdminPanel';
 import { MainHelmet } from './helmet/MainHelmet';
+import { SuperAdmin, ConfigViewer } from './ui/super-admin';
 
 const App = () => {
   const [width, setWidth] = useState(window.innerWidth);
@@ -36,8 +34,7 @@ const App = () => {
           <Route path="/oferta/:id" element={<OfferDetails />} />
           <Route path="/poznajmy-sie" element={<AboutMePage />} />
           <Route path="/super-admin" element={<SuperAdmin />} />
-          <Route path="/super-admin/callback" element={<GitHubCallback />} />
-          <Route path="/super-admin-panel" element={<SuperAdminPanel />} />
+          <Route path="/super-admin/config" element={<ConfigViewer />} />
         </Routes>
       </Router>
     </ThemeProvider>

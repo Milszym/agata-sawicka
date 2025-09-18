@@ -8,6 +8,7 @@ import { Portfolio } from "./landing/portfolio/Portfolio"
 import { Voucher } from "./landing/voucher/Voucher"
 import { Contact } from "./landing/contact/Contact"
 import { Footer } from "./landing/footer/Footer"
+import { Studio } from "./landing/studio/Studio"
 
 export const AppContent = () => {
     return <>
@@ -16,9 +17,10 @@ export const AppContent = () => {
         <AboutMe />
         {/* <Offers /> */}
         <OffersAlternative />
+        {/* <Studio /> */}
         <Portfolio />
-        <Reviews />
         <Voucher />
+        <Reviews />
         <Contact />
         <Footer />
     </>

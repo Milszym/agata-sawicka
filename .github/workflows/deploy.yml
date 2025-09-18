@@ -1,19 +1,17 @@
-name: Deploy
+name: Deploy to External Repository
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, agata-sawicka ]  # Trigger on pushes to main or agata-sawicka branch
 
-  workflow_dispatch:
+  workflow_dispatch:  # Allow manual triggering
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
+    
     steps:
-      - name: Checkout code
+      - name: Checkout source code
         uses: actions/checkout@v4
 
       - name: Set up Node.js
@@ -28,8 +26,13 @@ jobs:
       - name: Build React app
         run: CI=false yarn build
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Deploy to external repository
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          source-directory: 'build'
+          destination-github-username: ${{ github.repository_owner }}
+          destination-repository-name: 'agata-sawicka-website'
+          user-email: ${{ github.actor }}@users.noreply.github.com
+          target-branch: main

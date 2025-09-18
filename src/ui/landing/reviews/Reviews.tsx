@@ -11,15 +11,41 @@ export const REVIEWS_ID = 'reviews';
 export const GOOGLE_URL = 'https://maps.app.goo.gl/pnrCpbJJaBfekdLr8';
 export const BOOKSY_URL = 'https://booksy.com/pl-pl/214831_agata-sawicka-makeup-artist_makijaz_21029_gdynia?do=invite&utm_medium=c2c_referral#ba_s=dl_1:~:text=Opinie-,Opinie,-%2C%20przy%20kt%C3%B3rych%20widoczny'
 
-const ReviewsContainerStyle = withMyTheme(() => css`
+const ReviewsContainerStyle = withMyTheme((theme) => css`
     padding: 4vh 0;
-    background-image: url(${Image.STUDIO_SMALLER});
-    background-attachment: fixed;
-    background-size: cover;
+    position: relative;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: ${theme.palette.primary.main};
+        opacity: 0.9;
+        z-index: 1;
+    }
+    
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url(${Image.STUDIO_SMALLER});
+        background-attachment: fixed;
+        background-size: cover;
+        z-index: 0;
+    }
+    
     ${mobileCss(`
-        background-image: url(${Image.STUDIO_REVIEWS_MOBILE});
+        &::after {
+            background-image: url(${Image.STUDIO_REVIEWS_MOBILE});
+            background-size: none;
+        }
         ${MOBILE_CONTENT_PADDING}
-        background-size: none;
     `)}
 `);
 
@@ -31,6 +57,8 @@ const ReviewsTitleStyle = withMyTheme((theme) => css`
     font-size: ${DESKTOP_TITLE_FONT_SIZE};
     font-weight: 600;
     margin-top: 0;
+    position: relative;
+    z-index: 2;
     
     ${mobileCss(`
         font-size: ${MOBILE_TITLE_FONT_SIZE};
@@ -47,6 +75,8 @@ const ReviewsDescriptionStyle = withMyTheme((theme) => css`
     margin-left: auto;
     margin-right: auto;
     line-height: 1.6;
+    position: relative;
+    z-index: 2;
     ${mobileCss(`
         font-size: 4vw;
         max-width: 90vw;
@@ -62,6 +92,8 @@ const TilesContainerStyle = withMyTheme(() => css`
     align-items: center;
     gap: 5vw;
     flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
     
     ${mobileCss(`
         flex-direction: column;
